@@ -1,0 +1,1273 @@
+body,
+h1 {
+    margin: 0;
+    padding: 0;
+}
+
+#AjaxOutput,
+#feedCommissioner {
+    position: relative;
+    margin-left: 5%;
+    width: 90%;
+    z-index: 2;
+}
+
+.header {
+    position: relative;
+    width: 100%;
+    height: 70px;
+    background-color: #1e797d;
+    color: white;
+    text-align: center;
+    font-family: "Raleway";
+}
+
+#downloadFile {
+    margin-top: 10px;
+    margin-left: 5px;
+    background-color: #adc64c;
+    width: 110px;
+    height: 35px;
+    color: white;
+    border: 1px solid #adc64c;
+    box-shadow: 0px 3px 5px grey;
+}
+
+.downloadButton {
+    background-color: #adc64c;
+    border: none;
+    color: white;
+    padding: 0px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    box-shadow: 0px 3px 5px grey;
+}
+
+input#feedURL {
+    width: 550px;
+    height: 30px;
+    margin-left: 5px;
+    color: white;
+    font-family: Raleway;
+    font-size: 15;
+    text-align: center;
+    background-color: rgba(40, 158, 162, 1);
+    border: 2px solid rgba(40, 158, 162, 1);
+    /* border-style: outset; */
+    box-shadow: 0px 3px 5px grey;
+}
+
+input[type="text"]::-webkit-input-placeholder {
+    color: white;
+}
+
+#loading {
+    display: none;
+}
+
+
+/* * * new Design Layout * */
+
+table#TableWindow {
+    font-family: Raleway;
+    width: 1350px;
+}
+
+table#TableWindow,
+table#TableWindow th,
+table#TableWindow td {
+    border-collapse: collapse;
+    vertical-align: middle;
+}
+
+table#TableWindow th {
+    text-align: center;
+    font-size: 17;
+    font-weight: 100;
+    padding: 3;
+}
+
+table#TableWindow td {
+    text-align: center;
+    vertical-align: middle;
+    font-size: 0.8em;
+    padding-top: 6;
+    padding-bottom: 6;
+    width: 10%;
+    overflow: hidden;
+}
+
+table#TableWindow td.found {
+    background-color: rgba(217, 234, 211, 1);
+    color: #38761d;
+    font-size: 26;
+    padding: 0;
+}
+
+table#TableWindow td.otherfound,
+table#TableWindow td.othermissing {
+    background-color: #efefefff;
+    color: #666666;
+    font-size: 26;
+    padding: 0;
+}
+
+table#TableWindow td.missing {
+    background-color: rgba(255, 107, 107, 0.5);
+    color: #990000;
+    font-size: 26;
+    padding: 0;
+}
+
+table#TableWindow td.missingEmpty {
+    background-color: rgba(255, 107, 107, 0.5);
+    color: #990000;
+}
+
+table#TableWindow td.missingwithNumber {
+    background-color: #efefefff;
+    color: #666666;
+}
+
+table#TableWindow td.missinghalf {
+    background-color: rgba(255, 214, 214, 1);
+    color: black;
+}
+
+table#TableWindow td.data {
+    background-color: rgba(255, 255, 255, 1);
+    color: #666666;
+    ;
+}
+
+
+/* ################################################################################################################ header settings ################################################################################################################ */
+
+.containerheader {
+    position: relative;
+    margin: 0px;
+    overflow: hidden;
+    z-index: 10;
+}
+
+#logoholder img {
+    position: absolute;
+    width: 350px;
+    top: 20px;
+    right: 0;
+    transform: translate(0px, -60px);
+}
+
+#check,
+#check2 {
+    position: relative;
+    margin-left: 5%;
+    width: 90%;
+    z-index: 2;
+}
+
+#analyzeOverview {
+    display: flex;
+    width: 100%;
+    height: 110px;
+    margin-bottom: 15px;
+}
+
+#analyzeOverview {
+    width: 100%;
+    font-size: 18px;
+}
+
+#analyzeDuplicateOverview {
+    display: flex;
+    width: 100%;
+    height: 100px;
+    margin-bottom: 15px;
+}
+
+#analyzeDuplicateOverview {
+    width: 100%;
+    font-size: 18px;
+}
+
+#analyzeProducts {
+    text-align: center;
+    font-family: "Raleway";
+    font-size: 18px;
+    margin: 10px;
+    margin-left: 0px;
+    padding: 10px;
+    background-color: #adc64c;
+    min-width: 60px;
+    color: white;
+    border: 1px solid #adc64c;
+    box-shadow: 0px 3px 5px grey;
+}
+
+#analyzeDuplicateProducts {
+    text-align: center;
+    font-family: "Raleway";
+    font-size: 18px;
+    margin: 10px;
+    margin-left: 0px;
+    padding: 10px;
+    background-color: #adc64c;
+    min-width: 80px;
+    color: white;
+    border: 1px solid #adc64c;
+    box-shadow: 0px 3px 5px grey;
+}
+
+#analyzeProducts h1,
+#analyzeDuplicateProducts h1 {
+    text-align: center;
+}
+
+#analyzeProducts.noDeal,
+#analyzeDuplicateProducts.noDeal {
+    background-color: rgba(180, 180, 180, 1);
+    border: 1px solid rgba(180, 180, 180, 1);
+}
+
+#analyzeProducts.notFound {
+    background-color: rgba(241, 180, 0, 1);
+    border: 1px solid rgba(241, 180, 0, 1);
+}
+
+#analyzeMandatory,
+#analyzeOther {
+    margin-bottom: 15px;
+}
+
+.mandatoryfeedattributes {
+    background-color: #e83062;
+    color: white;
+    border: 1px solid white;
+}
+
+.importantfeedattributes {
+    background-color: #1e797d;
+    color: white;
+    border: 1px solid white;
+}
+
+tr#Header {
+    font-size: 23px;
+    font-weight: 500;
+}
+
+tr#otherHeader {
+    font-size: 25px;
+}
+
+.otherfeedattributes {
+    background-color: #999999ff;
+    color: white;
+    border: 1px solid white;
+}
+
+#underlineHeader {
+    display: inline-block;
+    position: relative;
+}
+
+#underlineHeader:before {
+    content: "";
+    position: absolute;
+    width: 130%;
+    height: 1px;
+    bottom: -5px;
+    border-bottom: 2px solid #666;
+}
+
+#value,
+tr#Value td.data {
+    background-color: #efefefff;
+}
+
+#value td,
+td.data {
+    border: 1px solid white;
+}
+
+.refreshButton {
+    position: absolute;
+    width: 20px;
+    cursor: pointer;
+    -webkit-transition: -webkit-transform .8s ease-in-out;
+    -ms-transition: -ms-transform .8s ease-in-out;
+    transition: transform .8s ease-in-out;
+    display: inherit;
+}
+
+.refreshButton:hover {
+    -webkit-animation: spin1 2s infinite linear;
+    -moz-animation: spin1 2s infinite linear;
+    -o-animation: spin1 2s infinite linear;
+    -ms-animation: spin1 2s infinite linear;
+    animation: spin1 2s infinite linear;
+    display: inherit;
+}
+
+#Samples img {
+    cursor: zoom-in;
+    -webkit-transition: .3s ease-in-out;
+    transition: .3s
+}
+
+#Samples img:hover {
+    filter: sepia(100%);
+}
+
+.noscroll {
+    position: fixed!important
+}
+
+
+/* Modal */
+
+.itemModal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 99;
+    /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.9);
+    /* Black w/ opacity */
+}
+
+#dimensions {
+    position: relative;
+    top: 15px;
+}
+
+#modalFullScreenClose {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    z-index: -1;
+    background-color: rgba(117, 117, 117, 0.11);
+}
+
+
+/* Modal Content (image) */
+
+.imageModal-Content {
+    margin: auto;
+    display: block;
+    margin-top: 60px;
+    margin-bottom: 15px;
+}
+
+
+/* Caption of Modal Image */
+
+#caption {
+    margin: auto;
+    display: block;
+    position: fixed;
+    width: 100%;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    bottom: 0;
+    background: black;
+    height: 15px;
+}
+
+#topMenu {
+    z-index: 1;
+    display: block;
+    position: fixed;
+    width: 100%;
+    text-align: center;
+    color: #ccc;
+    background-color: black;
+    height: 60px;
+}
+
+
+/* Add Animation */
+
+.imageModal-Content {
+    -webkit-animation-name: zoom;
+    -webkit-animation-duration: 0.6s;
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+
+@-webkit-keyframes zoom {
+    from {
+        -webkit-transform: scale(0.8)
+    }
+    to {
+        -webkit-transform: scale(1)
+    }
+}
+
+@keyframes zoom {
+    from {
+        transform: scale(0.8)
+    }
+    to {
+        transform: scale(1)
+    }
+}
+
+@-webkit-keyframes spin1 {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(-360deg);
+    }
+}
+
+@-moz-keyframes spin1 {
+    0% {
+        -moz-transform: rotate(0deg);
+    }
+    100% {
+        -moz-transform: rotate(-360deg);
+    }
+}
+
+@-o-keyframes spin1 {
+    0% {
+        -o-transform: rotate(0deg);
+    }
+    100% {
+        -o-transform: rotate(-360deg);
+    }
+}
+
+@-ms-keyframes spin1 {
+    0% {
+        -ms-transform: rotate(0deg);
+    }
+    100% {
+        -ms-transform: rotate(-360deg);
+    }
+}
+
+@-keyframes spin1 {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(-360deg);
+    }
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Safari */
+    -khtml-user-select: none;
+    /* Konqueror HTML */
+    -moz-user-select: none;
+    /* Old versions of Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently
+                                    supported by Chrome, Opera and Firefox */
+}
+
+.fullscreenButton {
+    float: right;
+    position: relative;
+    top: 5px;
+    right: 95px;
+    color: #f1f1f13f;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.fullscreenButton:hover,
+.fullscreenButton:focus,
+.zoomIn:hover,
+.zoomOut:hover {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.zoomIn {
+    float: right;
+    position: relative;
+    top: 0px;
+    right: 246px;
+    color: #f1f1f13f;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.zoomOut {
+    float: right;
+    position: relative;
+    top: 0px;
+    right: 163px;
+    color: #f1f1f13f;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+
+/* The Close Button */
+
+.screenCloseButton {
+    float: right;
+    position: relative;
+    top: 1px;
+    right: 35px;
+    color: #f1f1f13f;
+    font-size: 45px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.screenCloseButton:hover,
+.screenCloseButton:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+/* ################################################################################################################ div container for loading, will be excuted once ajax fired ################################################################################################################ */
+
+#loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    cursor: wait;
+    z-index: 1000;
+}
+
+
+/* ################################################################################################################ ajax loading animation ################################################################################################################ */
+
+#dynamicLoadingContent {
+    color: white;
+    width: 400px;
+    height: 200px;
+    position: absolute;
+    left: 48%;
+    margin-left: -100px;
+    top: 45%;
+    margin-top: -100px;
+}
+
+.socket h1 {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.socket {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    left: 50%;
+    margin-left: -100px;
+    top: 50%;
+    margin-top: -100px;
+}
+
+.hex-brick {
+    background: #ABF8FF;
+    width: 30px;
+    height: 17px;
+    position: absolute;
+    top: 5px;
+    animation-name: fade;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    -webkit-animation-name: fade;
+    -webkit-animation-duration: 2s;
+    -webkit-animation-iteration-count: infinite;
+}
+
+.h2 {
+    transform: rotate(60deg);
+    -webkit-transform: rotate(60deg);
+}
+
+.h3 {
+    transform: rotate(-60deg);
+    -webkit-transform: rotate(-60deg);
+}
+
+.gel {
+    height: 30px;
+    width: 30px;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+.center-gel {
+    margin-left: -15px;
+    margin-top: -15px;
+    animation-name: pulse;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    -webkit-animation-name: pulse;
+    -webkit-animation-duration: 2s;
+    -webkit-animation-iteration-count: infinite;
+}
+
+.c1 {
+    margin-left: -47px;
+    margin-top: -15px;
+}
+
+.c2 {
+    margin-left: -31px;
+    margin-top: -43px;
+}
+
+.c3 {
+    margin-left: 1px;
+    margin-top: -43px;
+}
+
+.c4 {
+    margin-left: 17px;
+    margin-top: -15px;
+}
+
+.c5 {
+    margin-left: -31px;
+    margin-top: 13px;
+}
+
+.c6 {
+    margin-left: 1px;
+    margin-top: 13px;
+}
+
+.c7 {
+    margin-left: -63px;
+    margin-top: -43px;
+}
+
+.c8 {
+    margin-left: 33px;
+    margin-top: -43px;
+}
+
+.c9 {
+    margin-left: -15px;
+    margin-top: 41px;
+}
+
+.c10 {
+    margin-left: -63px;
+    margin-top: 13px;
+}
+
+.c11 {
+    margin-left: 33px;
+    margin-top: 13px;
+}
+
+.c12 {
+    margin-left: -15px;
+    margin-top: -71px;
+}
+
+.c13 {
+    margin-left: -47px;
+    margin-top: -71px;
+}
+
+.c14 {
+    margin-left: 17px;
+    margin-top: -71px;
+}
+
+.c15 {
+    margin-left: -47px;
+    margin-top: 41px;
+}
+
+.c16 {
+    margin-left: 17px;
+    margin-top: 41px;
+}
+
+.c17 {
+    margin-left: -79px;
+    margin-top: -15px;
+}
+
+.c18 {
+    margin-left: 49px;
+    margin-top: -15px;
+}
+
+.c19 {
+    margin-left: -63px;
+    margin-top: -99px;
+}
+
+.c20 {
+    margin-left: 33px;
+    margin-top: -99px;
+}
+
+.c21 {
+    margin-left: 1px;
+    margin-top: -99px;
+}
+
+.c22 {
+    margin-left: -31px;
+    margin-top: -99px;
+}
+
+.c23 {
+    margin-left: -63px;
+    margin-top: 69px;
+}
+
+.c24 {
+    margin-left: 33px;
+    margin-top: 69px;
+}
+
+.c25 {
+    margin-left: 1px;
+    margin-top: 69px;
+}
+
+.c26 {
+    margin-left: -31px;
+    margin-top: 69px;
+}
+
+.c27 {
+    margin-left: -79px;
+    margin-top: -15px;
+}
+
+.c28 {
+    margin-left: -95px;
+    margin-top: -43px;
+}
+
+.c29 {
+    margin-left: -95px;
+    margin-top: 13px;
+}
+
+.c30 {
+    margin-left: 49px;
+    margin-top: 41px;
+}
+
+.c31 {
+    margin-left: -79px;
+    margin-top: -71px;
+}
+
+.c32 {
+    margin-left: -111px;
+    margin-top: -15px;
+}
+
+.c33 {
+    margin-left: 65px;
+    margin-top: -43px;
+}
+
+.c34 {
+    margin-left: 65px;
+    margin-top: 13px;
+}
+
+.c35 {
+    margin-left: -79px;
+    margin-top: 41px;
+}
+
+.c36 {
+    margin-left: 49px;
+    margin-top: -71px;
+}
+
+.c37 {
+    margin-left: 81px;
+    margin-top: -15px;
+}
+
+.r1 {
+    animation-name: pulse;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-delay: .2s;
+    -webkit-animation-name: pulse;
+    -webkit-animation-duration: 2s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-delay: .2s;
+}
+
+.r2 {
+    animation-name: pulse;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-delay: .4s;
+    -webkit-animation-name: pulse;
+    -webkit-animation-duration: 2s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-delay: .4s;
+}
+
+.r3 {
+    animation-name: pulse;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-delay: .6s;
+    -webkit-animation-name: pulse;
+    -webkit-animation-duration: 2s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-delay: .6s;
+}
+
+.r1>.hex-brick {
+    animation-name: fade;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-delay: .2s;
+    -webkit-animation-name: fade;
+    -webkit-animation-duration: 2s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-delay: .2s;
+}
+
+.r2>.hex-brick {
+    animation-name: fade;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-delay: .4s;
+    -webkit-animation-name: fade;
+    -webkit-animation-duration: 2s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-delay: .4s;
+}
+
+.r3>.hex-brick {
+    animation-name: fade;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-delay: .6s;
+    -webkit-animation-name: fade;
+    -webkit-animation-duration: 2s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-delay: .6s;
+}
+
+@keyframes pulse {
+    0% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+    50% {
+        -webkit-transform: scale(0.01);
+        transform: scale(0.01);
+    }
+    100% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+}
+
+@keyframes fade {
+    0% {
+        background: #ABF8FF;
+    }
+    50% {
+        background: #90BBBF;
+    }
+    100% {
+        background: #ABF8FF;
+    }
+}
+
+@-webkit-keyframes pulse {
+    0% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+    50% {
+        -webkit-transform: scale(0.01);
+        transform: scale(0.01);
+    }
+    100% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+}
+
+@-webkit-keyframes fade {
+    0% {
+        background: #ABF8FF;
+    }
+    50% {
+        background: #389CA6;
+    }
+    100% {
+        background: #ABF8FF;
+    }
+}
+
+.red {
+    color: red;
+}
+
+.green {
+    color: green;
+}
+
+h6 {
+    padding: 0;
+    margin: 5px;
+}
+
+ul.products h4 {
+    margin: auto;
+    font-size: 13px;
+    width: 150px;
+    max-height: 75px;
+    overflow: hidden;
+}
+
+ul.products p {
+    font-size: 13px;
+    overflow: hidden;
+}
+
+ul.products span {
+    font-size: 15px;
+}
+
+ul.products li {
+    width: 150px;
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+    height: 350px;
+    border: 1px solid lightgrey;
+    margin: 3px;
+}
+
+ul.products img {
+    margin-top: 5px;
+}
+
+ul.products li:hover {
+    border: 1px solid grey;
+}
+
+ul.products {
+    margin: 0px;
+    padding: 2px;
+}
+
+ul.products p {
+    margin: 0px;
+    padding: 0px;
+}
+
+#Samples img {
+    cursor: zoom-in;
+    -webkit-transition: .3s ease-in-out;
+    transition: .3s
+}
+
+#Samples img:hover {
+    filter: sepia(100%);
+}
+
+.noscroll {
+    position: fixed!important
+}
+
+
+/* Modal */
+
+.itemModal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 99;
+    /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.9);
+    /* Black w/ opacity */
+}
+
+#dimensions {
+    position: relative;
+    top: 15px;
+}
+
+#modalFullScreenClose {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    z-index: -1;
+    background-color: rgba(117, 117, 117, 0.11);
+}
+
+
+/* Modal Content (image) */
+
+.imageModal-Content {
+    margin: auto;
+    display: block;
+    margin-top: 60px;
+    margin-bottom: 15px;
+}
+
+
+/* Caption of Modal Image */
+
+#caption {
+    margin: auto;
+    display: block;
+    position: fixed;
+    width: 100%;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    bottom: 0;
+    background: black;
+    height: 15px;
+}
+
+#topMenu {
+    z-index: 1;
+    display: block;
+    position: fixed;
+    width: 100%;
+    text-align: center;
+    color: #ccc;
+    background-color: black;
+    height: 60px;
+}
+
+
+/* Add Animation */
+
+.imageModal-Content {
+    -webkit-animation-name: zoom;
+    -webkit-animation-duration: 0.6s;
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+
+@-webkit-keyframes zoom {
+    from {
+        -webkit-transform: scale(0.8)
+    }
+    to {
+        -webkit-transform: scale(1)
+    }
+}
+
+@keyframes zoom {
+    from {
+        transform: scale(0.8)
+    }
+    to {
+        transform: scale(1)
+    }
+}
+
+@-webkit-keyframes spin1 {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(-360deg);
+    }
+}
+
+@-moz-keyframes spin1 {
+    0% {
+        -moz-transform: rotate(0deg);
+    }
+    100% {
+        -moz-transform: rotate(-360deg);
+    }
+}
+
+@-o-keyframes spin1 {
+    0% {
+        -o-transform: rotate(0deg);
+    }
+    100% {
+        -o-transform: rotate(-360deg);
+    }
+}
+
+@-ms-keyframes spin1 {
+    0% {
+        -ms-transform: rotate(0deg);
+    }
+    100% {
+        -ms-transform: rotate(-360deg);
+    }
+}
+
+@-keyframes spin1 {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(-360deg);
+    }
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Safari */
+    -khtml-user-select: none;
+    /* Konqueror HTML */
+    -moz-user-select: none;
+    /* Old versions of Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently
+                                    supported by Chrome, Opera and Firefox */
+}
+
+.fullscreenButton {
+    float: right;
+    position: relative;
+    top: 5px;
+    right: 95px;
+    color: #f1f1f13f;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.fullscreenButton:hover,
+.fullscreenButton:focus,
+.zoomIn:hover,
+.zoomOut:hover {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.zoomIn {
+    float: right;
+    position: relative;
+    top: 0px;
+    right: 246px;
+    color: #f1f1f13f;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.zoomOut {
+    float: right;
+    position: relative;
+    top: 0px;
+    right: 163px;
+    color: #f1f1f13f;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+
+/* The Close Button */
+
+.screenCloseButton {
+    float: right;
+    position: relative;
+    top: 1px;
+    right: 35px;
+    color: #f1f1f13f;
+    font-size: 45px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.screenCloseButton:hover,
+.screenCloseButton:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.refreshButton {
+    position: absolute;
+    width: 20;
+    cursor: pointer;
+    -webkit-transition: -webkit-transform .8s ease-in-out;
+    -ms-transition: -ms-transform .8s ease-in-out;
+    transition: transform .8s ease-in-out;
+    display: inherit;
+}
+
+.refreshButton:hover {
+    -webkit-animation: spin1 2s infinite linear;
+    -moz-animation: spin1 2s infinite linear;
+    -o-animation: spin1 2s infinite linear;
+    -ms-animation: spin1 2s infinite linear;
+    animation: spin1 2s infinite linear;
+    display: inherit;
+}

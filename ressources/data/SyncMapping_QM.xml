@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pipeline>
+    <task class="com.visualmeta.sync.task.retrieve.DataDownloadTask">
+        <download-url>FEED_URL</download-url>
+    </task>
+    <task class="com.visualmeta.sync.task.convert.UnzipTask"/>
+    <task class="com.visualmeta.sync.task.read.ReadCsvTask">
+        <separator>auto</separator>
+        <skip-headline>true</skip-headline>
+        <charset>auto</charset>
+        <useOpenCsvReader>true</useOpenCsvReader>
+        <cellDelimiterChar>"</cellDelimiterChar>
+    </task>
+    <task class="com.visualmeta.sync.task.mapping.SimpleMappingTask">
+        <column-mapping name="SKU" original="0" originalname="^itemId|sku|offer[\s\_\-]*id|art[\s\_\-]*num[mb]er|produ[ck]t[\s\_\-]*id|arti[kc][el][el][\s\_\-]*nu?m?[mb]?e?r|^id|^aid|merchant[\s\_\-]*sku|arti[kc][el][el][\s\_\-]*id|^art\.?nr\.?$|^référence[\s\_\-]*de[\s\_\-]*l\'article|référence\sde l'article|^numéro[\s\_\-]*article|^idproduit$|^identifiant[\s\_\-]*unique|^code[\s\_\-]*article$|^numero[\s\_\-]*articolo|^numero[\s\_\-]*prodotto|^id[\s\_\-]*prodotto|^id[\s\_\-]*articolo|^codice[\s\_\-]*articolo|^codice[\s\_\-]*prodotto|^número[\s\_\-]*de[\s\_\-]*artículo|^identificador|^nome$|^codigo$|^tuotenumero|^numer[\s\_\-]*produktu|^číslo[\s\_\-]*produktu|^gyártási[\s\_\-]*szám|^item\_*id$|^číslo[\s\_\-]*produktu" processed="0"/>
+        <!--column-mapping name="OLD SKU" originalname="" processed="48"/-->
+        <column-mapping name="NAME" originalname="produ[ck]t\_*\s*name|art\_*name|artikel\s*name|name|^tit[el][el]|^produ[ck]t\-name|^produktbezeichnung|^désignation|^nom[\s\_\-]*d[u|e][\s\_\-]*produit|^titre$|^nome[\s\_\-]*d?e?l?[\s\_\-]*prodotto|^nome[\s\_\-]*articolo|^titolo$|^nombre|^nombre[\s\_\-]*del[\s\_\-]*producto|^título$|^nome[\s\_\-]*do[\s\_\-]*produto|^tuotenimi|^produ[ck]tna[am][nm]|^nazwa[\s\_\-]*produktu|^meno[\s\_\-]*produktu|^názov$|^meno$|^termék[\s\_\-]*név|^jméno[\s\_\-]*produktu" processed="1"/>
+        <column-mapping name="PRICE" originalname="price[\s\_\-]*vat|^price|^preis|^search[\s\_\-]*price|^product[\s\_\-]*price|current[\s\_\-]*price|^prix$|^prix[\s\_\-]*TTC$|^prezzo$|^precio$|^precio[\s\_\-]*rebajado|^preço$|^preco[\s\_\-]*por|^hinta$|^prij?s$|^cena$|^cena[\s\_\-]*dph$|^ár$" processed="2"/>
+        <column-mapping name="DESCRIPTION" originalname="^description|^beschreibung|^produ[k|t][t|k][\s\_\-]*beschreibung|^i?t?e?m?[\s\_\-]*product[\s\_\-]*description|^desc$|long[\s\_\-]*description|kurz[\s\_\-]*beschreibung|^description[\s\_\-]*du[\s\_\-]*produit|^descrizione|^descripción|^descrição|^tuotekuvaus|^kuvaus|^beskrivning|^produktbeskrivning|^omschrijving|^opis$|^opis[\s\_\-]*produktu|^popis[\s\_\-]*produktu|^leírás$|^popis$" processed="3"/>        
+        <column-mapping name="IMAGE URL" originalname="^bild|^ima?ge?n?|^item[\s\_\-]*image|^product[\s\_\-]*image[\s\_\-]*url|^picture[\s\_\-]*url|^item[\s\_\-]*bild|^link[\s\_\-]*produktbild|merchant[\s\_\-]*image[\s\_\-]*url|^product[\s\_\-]*images?|large_image|^URL[\s\_\-]*de[\s\_\-]*l\'image|^immagine$|^url[\s\_\-]*immagine|^immagine[\s\_\-]*url|^imagem$|^kuvalinkki$|^linki?[\s\_\-]*do[\s\_\-]*zdjęć|^obrázok$|^fotka[\s\_\-]*url|^link[\s\_\-]*produktu|^kép[\s\_\-]*url$|^url[\s\_\-]*obrázku$" processed="4"/>
+        <column-mapping name="DEEPLINK URL" originalname="^deep|^link|^url|^product\-*producturl|^item\-*deepurl|^produ[ck]t[\s\_\-]*url|^aw[\s\_\-]*deep[\s\_\-]*link|^click[\s\_\-]*url$|^lien[\s\_\-]*produit|^lien[\s\_\-]*profond|^url[\s\_\-]*produit|^url[\s\_\-]*profonde|^url[\s\_\-]*de[\s\_\-]*redirection|^url[\s\_\-]*article|^url[\s\_\-]*prodotto|^url[\s\_\-]*articolo|^url[\s\_\-]*del[\s\_\-]*producto|^tuotelinkki|^syvälinkki|^link[\s\_\-]*do[\s\_\-]*strony|^produktovéurl" processed="5"/>        
+        <column-mapping name="TOP CATEGORY" originalname="^hauptkategorie|top[\s\_\-]*category|^category_first|product[\s\_\-]*t?d?categoryname|^m?a?i?n?\_*[ck]ategor[iy]e?$|^item\-*hauptkategorie|^google\_product\_category|^categorytext|^shop\_*cat|category[\s\_\-]*path|^product[\s\_\-]*category|^categories$|kategorie[\s\_\-]*baum|^produkt[\s\_\-]*typ|^produkt[\s\_\-]*gruppe|^category[\s\_\-]*name|^catégorie[\s\_\-]*principale|^top[\s\_\-]*catégorie|^categor[i|í]a[\s\_\-]*principale?|^categor[i|í]a$|^top[\s\_\-]*categor[i|í]a|^pääkategoria|^huvudkategori|^kategori$|^główna[\s\_\-]*kategoria|^obchod[\s\_\-]*kategória|^kategória[\s\_\-]*meno|^hlavná[\s\_\-]*kategória|^kategórie$|^názov[\s\_\-]*kategórie[\s\_\-]*produktu|^ová[\s\_\-]*[c|k]ategória|^főkategória|^hlavní[\s\_\-]*kategorie" processed="6"/>        
+        <column-mapping name="CATEGORY" originalname="^1?\.?\s*unterkategorie|^item[\s\_\-]*unterkategorie|^sub[\s\_\-]*categor[y|i]e?s?|^product[\s\_\-]*type|^merchant[\s\_\-]*category|^category1|^sous[\s\_\-]*catégorie|^sub[\s\_\-]*categor[i|í]a|^sottocategoria|^alakategoria|^subkategori|^pod[\s\_\-]*kateg[o|ó]ri[a|e]|^alkategória|^[c|k]ategories?$|^category$|^kategorie[\s\_\-]*baum$" processed="7"/>
+        <column-mapping name="CATEGORY_2" originalname="^unterkategorie[\s\_\-]*2|^category[\s\_\-]*2|^2\.*t?e?[\s\_\-]*unterkategorie|^2\.*t?e?[\s\_\-]*sub[\s\_\-]*category|sub[\s\_\-]*sub[\s\_\-]*categor[yi]e?s?|^seconde[\s\_\-]*sous[\s\_\-]*catégorie|^sous[\s\_\-]*catégorie[\s\_\-]*2|^seconda[\s\_\-]*sottocategoria|^2a[\s\_\-]*sottocategoria|^2a[\s\_\-]*sub[\s\_\-]*categoria|^seconda[\s\_\-]*sub[\s\_\-]*categoria|^2d?a[\s\_\-]*sub[\s\_\-]*categor[i|í]a|^segunda[\s\_\-]*sub[\s\_\-]*categoría|^2\.[\s\_\-]*alakategoria|^sub[\s\_\-]*sub[\s\_\-]*kategori|^2a[\s\_\-]*sub[\s\_\-]*kategori|^druga[\s\_\-]*podkategoria|^pod[\s\_\-]*pod[\s\_\-]*kategória|^druhá[\s\_\-]*podkategória|^2[\s\_\-]*podkategória|^második[\s\_\-]*alkategória|^2\.[\s\_\-]*pod[\s\_\-]*kategorie|^[c|k]ategories?$|^category$|^kategorie[\s\_\-]*baum$" processed="8"/>
+        <column-mapping name="OLD PRICE" originalname="alter[\s\_\-]*preis|old[\s\_\-]*price|previous[\s\_\-]*price|price[\s\_\-]*old|preis[\s\_\-]*alt|streich[\s\_\-]*preis|^sale[\s\_\-]*price|^uvp$|original[\s\_\-]*price|current[\s\_\-]*price|discount[\s\_\-]*price|sale[\s\_\-]*preis|^ancien[\s\_\-]*prix$|^prezzo[\s\_\-]*vecchio|^prezzo[\s\_\-]*intero|^precio[\s\_\-]*antiguo|^preço[\s\_\-]*antigo|^preco[\s\_\-]*de|^vanha[\s\_\-]*hinta|^alkuperäinen[\s\_\-]*hinta|^ursprungligt[\s\_\-]*pris|^tidigare[\s\_\-]*pris|^ordinarie[\s\_\-]*pris|^ord\.[\s\_\-]*pris|^oude[\s\_\-]*prijs|^poprzednia[\s\_\-]*cena|^star[a|á][\s\_\-]*cena|^cena[\s\_\-]*star[a|á]|^régi[\s\_\-]*ár|^cena[\s\_\-]*před[\s\_\-]*slevou" processed="9"/>
+        <column-mapping name="BASE PRICE" originalname="base|grund" processed="10"/>
+        <column-mapping name="GENDER" originalname="geschlecht|gender|^sex|^item\-*geschlecht|suitable_for$|^gene?re$|^sexe$|^g[é|ê]nero|^sukupuoli|^kön$|^geslacht|^płeć&amp;|^rodzaj$|^pohlavie$|^nem$|^pohlaví" processed="11"/>
+        <column-mapping name="BRAND" originalname="herste|manufact|marke|brand|produ[cz]e[rn]#id|num[mb]er" processed="12"/>
+        <column-mapping name="SIZES" originalname="gr[öo](e?)[ßs](s?)e|size|inhalt|volume#stock" processed="13"/>
+        <column-mapping name="COLOR" originalname="farbe|[ck]olo(u?)r" processed="14"/>
+        <column-mapping name="CPC" originalname="^cpc$|^de?s?k?t?o?p?[\s\_\-]*cpc$|cpc[\s\_\-]*de?s?k?t?o?p?|^dc$|cpc[\s\_\-]*bidding[\s\_\-]*desktop|cpc[\s\_\-]*bidding$" processed="15"/>
+        <column-mapping name="MATERIAL" originalname="^materiaa?le?|fashion[\s\_\-\:]*material|clothing[\s\_\-\:]*material|product[\s\_\-]*material|^matériaux|^matériel|^matière|^materiaali|^materi[á][l|ł]|^anyag" processed="16"/>
+        <column-mapping name="SHIPPING COSTS" originalname="versandk[o|s][s|o]ten|^shipping$|shipping[\s\_\-]*costs?|^shipping[\s\_\-]*price|^shipping[\s\_\-]*delay|^de?li?ve?r?y?[\s\_\-]*costs?|^product[\s\_\-]*shippingcost|versand[\s\_\-]*konditionen|^item\-*versandkosten|^versand$|transport[\s\_\-]*cost|standar[d|t][\s\_\-]*versand|^conditions[\s\_\-]*de[\s\_\-]*livraison|^frais[\s\_\-]*de[\s\_\-]*port|^costi[\s\_\-]*di[\s\_\-]*spedizione|^spese[\s\_\-]*di[\s\_\-]*spedizione|^spese[\s\_\-]*di[\s\_\-]*consegna|^costi[\s\_\-]*di[\s\_\-]*consegna|^gastos[\s\_\-]*de[\s\_\-]*envío|^costos[\s\_\-]*de[\s\_\-]*envío|^custo[\s\_\-]*de[\s\_\-]*entrega|^custos[\s\_\-]*de[\s\_\-]*envio|^toimituskulut|^leveranskostnader|^leverans$|^fraktkostnader|^verzend[\s\_\-]*kosten|^koszty[\s\_\-]*wysyłki|^cena[\s\_\-]*poštovného|^szállítási[\s\_\-]*költség" processed="17"/>
+        <column-mapping name="AVAILABILITY" originalname="de?li?ve?r?y?[\s\_\-]*time|liefer[\s\_\-]*zeit|^product\-*deliverytime|^item\-*lieferzeit|de?li?ve?r?y?[\s\_\-]*date|de?li?ve?r?y?[\s\_\-]*period|shipping[\s\_\-]*time|^délais?[\s\_\-]*de[\s\_\-]*livraison|^disponibilité$|^temp[i|o][\s\_\-]*di[\s\_\-]*spedizione|^tempi[\s\_\-]*di[\s\_\-]*consegna|^tiempo[\s\_\-]*de[\s\_\-]*envío|^tiempo[\s\_\-]*de[\s\_\-]*entrega|^prazo[\s\_\-]*de[\s\_\-]*entrega|^toimitusaika|^leveranstid|^levertijd|^czas[\s\_\-]*wysyłki|^czas[\s\_\-]*realizacji|^czas[\s\_\-]*dostawy|^čas[\s\_\-]*dodania|^szállítási[\s\_\-]*idő|^doba[\s\_\-]*lhůta|^availability$" processed="18"/>       
+        <column-mapping name="AUX IMAGE URL 1" originalname="aux[\s\_\-]*bild|aux[\s\_\-]*ima?ge?|aux[\s\_\-]*url|^product\-*fields\-*imageurl\_*1|bild[\s\_\-]*url[\s\_\-]*2|^picture[\s\_\-]*url[\s\_\-]*2|^ima?ge?[\s\_\-]*url[\s\_\-]*2|^item\-*auxbild\_*2|additional[\s\_\-]*ima?ge?[\s\_\-]*link|^img[\s\_\-]*url[\s\_\-]*[1-2]|alternati?v?e[\s\_\-]*ima?ge?|ima?ge?[\s\_\-]*2|product[\s\_\-]*image[\s\_\-]*url[\s\_\-]*2|^aux[\s\_\-]*picture[\s\_\-]*url|^image[\s\_\-]*auxilliaire|^aux[\s\_\-]*immagine|^immagini[\s\_\-]*supplementari|^imagen[\s\_\-]*auxiliar|^aux[\s\_\-]*kuvat?|^lisäkuvat?|^dodatkowy[\s\_\-]*link[\s\_\-]*do[\s\_\-]*zdjęć|^ďalší[\s\_\-]*obrázok[\s\_\-]*linka|^obrázok[\s\_\-]*url[\s\_\-]*2|^aux[\s\_\-]*kép[\s\_\-]*url|aux|bild|im(a?)g(e?)|pict|[fph]oto#small|prev|thumb|main|width|height" processed="19"/>
+        <column-mapping name="ENERGY LABEL" originalname="^eek$|^eec$|energie[\s\_\-]*effizienz[\s\_\-]*klasse|energy[\s\_\-]*effici?ency[\s\_\-]*class|energ[i|y]e?[\s\_\-]*label|energy[\s\_\-]*class|^label[\s\_\-]*énergie|^étiquette[\s\_\-]*énergie|^etichetta[\s\_\-]*energetica|^consumo[\s\_\-]*energetico|^etiqueta[\s\_\-]*energética|^energiamerkintä|^energimärkning|^etykieta[\s\_\-]*energetyczna|^energicky[\s\_\-]*efektívna[\s\_\-]*trieda|^energetická[\s\_\-]*trieda|^energia[\s\_\-]*címke|^energia[\s\_\-]*osztály|^energetický[\s\_\-]*štítek" processed="20"/>
+        <column-mapping name="MOBILE CPC" originalname="mobile" processed="21"/>
+        <column-mapping name="EAN" originalname="ean|gtin" processed="22"/>
+        <!-- below not defined in QM yet -->
+        <!--column-mapping name="INSTALLMENT PAYMENTS" originalname="installment|parcelamento" processed="40"/-->
+        <column-mapping name="PATTERN" originalname="pattern|muster" processed="23"/>
+        <column-mapping name="HEEL HEIGHT" originalname="heel|absatz" processed="24"/>
+        <column-mapping name="IN STOCK" originalname="stock|lager#size|gr[öo](e?)[ßs](s?)e" processed="25"/>
+        <column-mapping name="AUX IMAGE URL 2" originalname="aux|bild|im(a?)g(e?)|pict|[fph]oto#small|prev|thumb|main|width|height" processed="26"/>
+        <column-mapping name="AUX IMAGE URL 3" originalname="aux|bild|im(a?)g(e?)|pict|[fph]oto#small|prev|thumb|main|width|height" processed="27"/>
+        <column-mapping name="AUX IMAGE URL 4" originalname="aux|bild|im(a?)g(e?)|pict|[fph]oto#small|prev|thumb|main|width|height" processed="28"/>        
+        <column-mapping name="COUPON" originalname="coupon|voucher|gutsch" processed="29"/>
+        <column-mapping name="CURRENCY" originalname="w[äa](e?)hrung|currency" processed="30"/>
+        <column-mapping name="DATE" originalname="last|update|modified|date|datum#sale|price" processed="31"/>
+        <column-mapping name="AUXILIARY" originalname="" processed="32"/>  
+        <column-mapping name="COUNTRY" originalname="" processed="33"/>
+        <column-mapping name="REGION" originalname="" processed="34"/>
+        <column-mapping name="TASTE" originalname="" processed="35"/>
+        <column-mapping name="YEAR" originalname="" processed="36"/>
+        <column-mapping name="AWARDS" originalname="" processed="37"/>
+        <column-mapping name="VIDEO URL" originalname="" processed="38"/>
+        <column-mapping name="FITTING" originalname="" processed="39"/>
+        <column-mapping name="VARIETAL" originalname="" processed="40"/>
+        <column-mapping name="BOTTLE SIZE" originalname="" processed="41"/>
+        <column-mapping name="MINIMUM PRICE" originalname="" processed="42"/>
+        <column-mapping name="OLD MINIMUM PRICE" originalname="" processed="43"/>
+    </task>
+
+    <task class="com.visualmeta.sync.task.mapping.advanced.ExtendedAdvancedMappingTask">
+        <set column="PRICE" if="EMPTY">
+            <mapped-column name="OLD PRICE"/>
+        </set>
+    </task>
+    <task class="com.visualmeta.sync.task.process.FeedStatsTask"/>
+    <task class="com.visualmeta.sync.task.preprocess.CleanItemFieldsTask"/>
+    <task class="com.visualmeta.sync.task.filter.InvalidDataFilterTask"/>
+    <task class="com.visualmeta.sync.task.filter.DuplicateSkuFilterTask">
+        <filter-skus>true</filter-skus>
+    </task>
+    <task class="com.visualmeta.sync.task.filter.DuplicateUrlFilterTask">
+        <filter-image-urls>false</filter-image-urls>
+        <filter-deeplink-urls>false</filter-deeplink-urls>
+    </task>
+    <task class="com.visualmeta.sync.task.process.WriteCSVTask"/>
+    <task class="com.visualmeta.sync.task.process.SyncUnchangedItemsTask"/>
+    <task class="com.visualmeta.sync.task.process.SyncTask"/>
+    <task class="com.visualmeta.sync.task.post.ValidateItemsTask"/>
+    <task class="com.visualmeta.sync.task.post.ReportingTask"/>
+</pipeline>
