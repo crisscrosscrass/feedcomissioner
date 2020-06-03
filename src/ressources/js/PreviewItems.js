@@ -1,3 +1,16 @@
+function setMaxSampleItems(number) {
+    maxSamples = number;
+    return maxSamples;
+}
+
+function createAndAdjustSampleItems(maxSamples) {
+    var InputSampleField = document.getElementById('InputSampleAmount');
+    maxSamples = setMaxSampleItems(InputSampleField.value);
+    // createSampleItems(maxSamples)
+    //new SampleItems(maxSamples);
+    new PreviewItems(maxSamples, globalValidatedElements);
+}
+var maxSamples = 10;
 class PreviewItems {
     constructor(maxSamples, validatedElements) {
         this.writelocation = document.getElementById("check");

@@ -1,8 +1,7 @@
 var globalValidatedElements;
-var maxSamples = 10;
 class FeedManager {
-    constructor() {
-        this.init();
+    constructor(cleaning = false) {
+        cleaning ? this.cleanupFeeds() : this.init();
     }
     init() {
         this.downloadFile();
@@ -57,7 +56,7 @@ class FeedManager {
         this.dynamicAjax('/decrompress_file', { fileName: fileName }, (response) => {
             console.log(response);
             $("#AjaxOutput").append(response.detectedFile.message);
-            $("#AjaxOutput").append('<a href="path_to_file" class="downloadButton" title="' + response.detectedFile.fileName + '" download="' + window.location.href + 'feeds/' + response.detectedFile.fileName + '">Download</a>');
+            $("#AjaxOutput").append('<a href="' + window.location.href + 'feeds/' + response.detectedFile.fileName + '" target="_blank" class="downloadButton" title="' + response.detectedFile.fileName + '" >Download</a>');
             $("#AjaxOutput").append('<br/>');
             this.proceedFile(response.detectedFile.fileName, response.detectedFile.fileType);
         });
@@ -75,7 +74,7 @@ class FeedManager {
         this.dynamicAjax('/convert_xml_file', { fileName: fileName }, (response) => {
             console.log(response);
             $("#AjaxOutput").append(response.detectedFile.message);
-            $("#AjaxOutput").append('<a href="path_to_file" class="downloadButton" title="' + response.detectedFile.fileName + '" download="' + window.location.href + 'feeds/' + response.detectedFile.fileName + '">Download</a>');
+            $("#AjaxOutput").append('<a href="' + window.location.href + 'feeds/' + response.detectedFile.fileName + '" target="_blank" class="downloadButton" title="' + response.detectedFile.fileName + '" >Download</a>');
             $("#AjaxOutput").append('<br/>');
             this.proceedFile(response.detectedFile.fileName, response.detectedFile.fileType);
         });
@@ -85,7 +84,7 @@ class FeedManager {
         this.dynamicAjax('/convert_json_file', { fileName: fileName }, (response) => {
             console.log(response);
             $("#AjaxOutput").append(response.detectedFile.message);
-            $("#AjaxOutput").append('<a href="path_to_file" class="downloadButton" title="' + response.detectedFile.fileName + '" download="' + window.location.href + 'feeds/' + response.detectedFile.fileName + '">Download</a>');
+            $("#AjaxOutput").append('<a href="' + window.location.href + 'feeds/' + response.detectedFile.fileName + '" target="_blank" class="downloadButton" title="' + response.detectedFile.fileName + '" >Download</a>');
             $("#AjaxOutput").append('<br/>');
             this.proceedFile(response.detectedFile.fileName, response.detectedFile.fileType);
         });
@@ -95,11 +94,21 @@ class FeedManager {
         this.dynamicAjax('/validate_file', { fileName: fileName }, (response) => {
             console.log(response);
             $("#AjaxOutput").append(response.detectedFile.message);
-            $("#AjaxOutput").append('<a href="path_to_file" class="downloadButton" title="' + response.detectedFile.fileName + '" download="' + window.location.href + 'feeds/' + response.detectedFile.fileName + '">Download</a>');
+            // $("#AjaxOutput").append('<a href="path_to_file" class="downloadButton" title="' + response.detectedFile.fileName + '" download="' + window.location.href + 'feeds/' + response.detectedFile.fileName + '">Download</a>');
             $("#AjaxOutput").append('<br/>');
             new FeedAnalysis(response.detectedFile.validatedElements);
             new PreviewItems(maxSamples, response.detectedFile.validatedElements);
             return globalValidatedElements = response.detectedFile.validatedElements;
         });
     }
+    cleanupFeeds() {
+        this.showInfo("Cleaning Folder Feeds...");
+        this.dynamicAjax('/cleaning_feeds', {
+            fileName: ""
+        }, (response) => {
+            console.log(response);
+            $("#AjaxOutput").empty().append(response.detectedFile.message);
+        });
+    }
+
 }

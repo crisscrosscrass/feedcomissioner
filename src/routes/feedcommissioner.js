@@ -128,36 +128,10 @@ router.post('/convert_json_file', (req, res) => {
 
 router.post('/validate_file', (req, res) => {
     console.log("=========================validate_file=================")
-        //validate = new FeedValidation(req.body.fileName);
     dest = "" + path.dirname(__dirname) + '/feeds/';
     fileName = req.body.fileName;
-    // var lineReader = require('readline').createInterface({
-    //     input: require('fs').createReadStream(dest + fileName),
-    // });
-    // var lineCounter = 0;
-    // var wantedLines;
-    // lineReader.on('line', function(line) {
-    //     lineCounter++;
-    //     wantedLines = line;
-    //     if (lineCounter == 1) { lineReader.close(); }
-    // });
-    // lineReader.on('close', function() {
-    //     console.log(wantedLines);
-    //     res.json({ message: "Big as hell", fileName: req.body.fileName });
-    //     // topDelimiter = getTopDelimiter(wantedLines);
-    //     // headers = wantedLines.toLocaleLowerCase().split(topDelimiter.sign);
-    // });
-    // validate = new FeedValidation(req.body.fileName);
-    // res.json({ message: validate, fileName: req.body.fileName });
 
-    // loadHeadersFromCSV(dest + fileName, function(headerValues) {
-    //     console.log(headerValues);
-    //     fileType = path.extname('./feeds/' + req.body.fileName);
-    //     detectedFile = createResponseObject("Analyze CSV File", fileType, true, fileName);
-    //     res.json({ message: "Big as hell", fileName: req.body.fileName });
-    // });
-
-    async function getExample() {
+    async function readAndValidate() {
         var headerValues = await getHeadersFromCSV(dest + fileName);
         var delimiter = await getTopDelimiter(headerValues);
         headerValues = headerValues.toLocaleLowerCase().split(delimiter.sign)
@@ -167,19 +141,13 @@ router.post('/validate_file', (req, res) => {
         var syncMapping = await getSyncMapping(mappingFile);
         let validatedElements = await validateAllAttributesViaFeed(syncMapping, delimiter, headerValues);
         validatedElements = await validateFileConent(dest + fileName, delimiter, validatedElements)
-            // count empty Values
-            // count duplicates
-
-
-
         detectedFile = createResponseObject("Analyze CSV File", fileType, true, fileName);
         detectedFile.validatedElements = validatedElements
-            //console.log(headerValues.toLocaleLowerCase().split(delimiter.sign))
         res.json({ detectedFile });
-        return // something using both resultA and resultB
+        return
     }
 
-    getExample();
+    readAndValidate();
     // getHeadersFromCSV(dest + fileName)
     //     .then((headerValues) => {
     //         return getTopDelimiter(headerValues)
@@ -195,6 +163,13 @@ router.post('/validate_file', (req, res) => {
     // fileType = path.extname('./feeds/' + req.body.fileName);
     // detectedFile = createResponseObject("Analyze CSV File", fileType, true, req.body.fileName);
     // res.json({ message: "Big as hell", fileName: req.body.fileName });
+});
+
+router.post('/cleaning_feeds', (req, res) => {
+    console.log("=========================cleaning all files from folder feeds=================")
+    deleteAllFilesFromFeeds();
+    detectedFile = createResponseObject(`Your Folder is empty now`, "", true, "");
+    res.json({ detectedFile });
 });
 
 function deleteAllFilesFromFeeds() {

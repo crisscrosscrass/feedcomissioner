@@ -154,7 +154,7 @@ class FeedAnalysis {
         let div = document.createElement("DIV");
         div.setAttribute("id", "analyzeOverview");
         this.writelocation.appendChild(div);
-        this.createBadge("Products", this.tableLines - 1, div);
+        this.createBadge("Products", this.tableLines, div);
         this.createBadge("Attributes", this.maxtableColumns, div);
         console.log(this.validatedElements);
         this.createConditionalBadge("GTIN", this.validatedElements['EAN'], this.validatedElements['EAN'].emptyCells, div);

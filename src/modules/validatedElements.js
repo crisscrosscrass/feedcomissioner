@@ -20,8 +20,14 @@ function getValidatedElements(syncMapping, tableHeaderInfo, headerValues) {
         let regex = new RegExp(syncMapping.syncMappingCollection[i].regex);
         let limitHeaderValues = headerValues.length;
         if (syncMapping.syncMappingCollection[i].regex.length != 0 && regex != undefined) {
+
             for (var j = 0; limitHeaderValues; j++) {
-                //console.log(regex.test(headerValues[j]))
+                // console.log(syncMapping.syncMappingCollection[i].name, regex.test(headerValues[j]), headerValues[j], headerValues.length);
+                // if (syncMapping.syncMappingCollection[i].name == "AVAILABILITY" ||
+                //     syncMapping.syncMappingCollection[i].name == "IMAGE URL" ||
+                //     syncMapping.syncMappingCollection[i].name == "TOP CATEGORY") {
+                //     console.log(headerValues);
+                // }
                 if (regex.test(headerValues[j])) {
                     validatedElements[syncMapping.syncMappingCollection[i].name] = {
                         found: true,
@@ -31,6 +37,8 @@ function getValidatedElements(syncMapping, tableHeaderInfo, headerValues) {
                         columnIndex: getColumnIndexViaHeaderName(tableHeaderInfo, headerValues[j])
                     };
                     headerValues.splice(j, 1);
+                    // console.log(syncMapping.syncMappingCollection[i].name);
+                    // console.log(headerValues, headerValues.length);
                     break;
                 } else {
                     validatedElements[syncMapping.syncMappingCollection[i].name] = {
@@ -66,10 +74,11 @@ function getValidatedElements(syncMapping, tableHeaderInfo, headerValues) {
         }
     }
     validatedElements['FEEDTABLE'] = {
-        headerValues: originHeaderValues,
-        attributes: originHeaderValues.length,
-        tableHeaderInfo: tableHeaderInfo
-    }
+            headerValues: originHeaderValues,
+            attributes: originHeaderValues.length,
+            tableHeaderInfo: tableHeaderInfo
+        }
+        //console.log(validatedElements);
     return validatedElements;
 }
 
@@ -85,9 +94,7 @@ function getColumnIndexViaHeaderName(tableHeaderInfo, searchedColumn) {
 async function validateAllAttributesViaFeed(syncMapping, headerFile, headerValues) {
     return new Promise((resolve, rejected) => {
         let tableHeaderInfo = getTableHeaderNamesAndPositions(headerValues);
-        for (let prop in tableHeaderInfo) {
-            headerValues.push(tableHeaderInfo[prop].header);
-        }
+
         console.log('headerValues before getElements:');
         console.log(headerValues, headerValues.length);
         // get found = true/false, columnName, columnIndex for each
