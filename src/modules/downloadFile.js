@@ -26,14 +26,17 @@ const downloadFile = function(fileUrl, cb) {
             }
             r.pipe(fs.createWriteStream(path.join(__dirname + '/../feeds/', filename)));
         })
+        .on('uncaughtException', function(err) {
+            console.error(err.stack);
+            console.log("Node NOT Exiting...");
+        })
         // .on('data', function(res) {
-
-    //     console.log(res);
-    //     // console.log(res.headers['content-length']);
-    // })
-    .on('end', function() {
-        cb(filename);
-    });
+        //     console.log(res);
+        //     // console.log(res.headers['content-length']);
+        // })
+        .on('end', function() {
+            cb(filename);
+        });
 }
 
 module.exports = downloadFile;
