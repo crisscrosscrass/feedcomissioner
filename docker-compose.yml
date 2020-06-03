@@ -1,0 +1,10 @@
+version: '2'
+services:
+  feed-commissioner:
+    build: .
+    image: commissioner:latest
+    container_name: commissioner.office.vm
+    ports:
+      - 8060:5000
+    volumes:
+    - .:/feed-commissioner 
