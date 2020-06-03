@@ -29,7 +29,9 @@ class FeedManager {
         this.dynamicAjax('/download_file', $('form').serialize(), (response) => {
             console.log(response);
             $("#AjaxOutput").empty().append(response.detectedFile.message + '<br/>');
-            this.proceedFile(response.detectedFile.fileName, response.detectedFile.fileType);
+            if (response.detectedFile.proceed) {
+                this.proceedFile(response.detectedFile.fileName, response.detectedFile.fileType);
+            }
         })
     }
     proceedFile(fileName, fileType) {

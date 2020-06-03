@@ -8,6 +8,7 @@ const decompress = require('decompress');
 const gunzip = require('gunzip-file');
 const convert = require('xml-js');
 const downloadFile = require('../modules/downloadFile');
+const checkfolder = require('../modules/foldercheck');
 const convertXmlToJson = require('../modules/convertXmlToJson');
 const convertJsonToCsv = require('../modules/convertJsonToCsv');
 const loadSyncConfig = require('../modules/loadSyncConfig');
@@ -23,10 +24,17 @@ router.get('/', (req, res) => {
 
 router.post('/download_file', (req, res) => {
     console.log("=========================download_file=================")
-    downloadFile('' + req.body.url + '', function(fileName) {
-        console.log('done with loading', fileName);
-        detectedFile = createResponseObject(`Your file: ${fileName} has been downloaded.`, path.extname('./feeds/' + fileName), true, fileName);
-        res.json({ detectedFile });
+    checkfolder(path.dirname(__dirname) + '/feeds/', (exist) => {
+        if (exist) {
+            downloadFile('' + req.body.url + '', function(fileName) {
+                console.log('done with loading', fileName);
+                detectedFile = createResponseObject(`Your file: ${fileName} has been downloaded.`, path.extname('./feeds/' + fileName), true, fileName);
+                res.json({ detectedFile });
+            });
+        } else {
+            detectedFile = createResponseObject(`Folder needs to be created first`, "", false, "");
+            res.json({ detectedFile });
+        }
     });
 });
 
