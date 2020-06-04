@@ -4,6 +4,21 @@ h1 {
     padding: 0;
 }
 
+#MappingSetting {
+    position: fixed;
+    top: 20px;
+    width: 280px;
+    right: 20px;
+    padding: 5px;
+    text-align: right;
+    border: 1px solid #0b2e3057;
+    background-color: rgba(245, 245, 245, 0.90);
+    cursor: move;
+    font-size: 11px;
+    display: none;
+    z-index: 15;
+}
+
 #AjaxOutput,
 #feedCommissioner {
     position: relative;

@@ -22,30 +22,30 @@ async function validateFileConent(file, delimiter, validatedElements) {
             }
         }
         validatedElements.FEEDTABLE.sampleItems = [];
+        validatedElements.FEEDTABLE.emptyCellsContent = {};
+        for (let i = 0; i < validatedElements.FEEDTABLE.headerValues.length; i++) {
+            validatedElements.FEEDTABLE.emptyCellsContent[i] = 0;
+        }
 
         lineReader.on('line', function(line) {
             if (!lineCounter < 1) {
-                // console.log(line);
                 content = line.toLocaleLowerCase().split(delimiter.sign);
                 content.forEach(function(value, index) {
-                    for (var prop in validatedElements) {
-                        if (index == validatedElements[prop].columnIndex) {
-                            //console.log(validatedElements[prop].name, validatedElements[prop].columnName, value);
-                            if (value != null) {
-                                if (value.length < 1) {
-                                    validatedElements[prop].emptyCells += 1;
-                                }
-                            } else {
-                                validatedElements[prop].emptyCells += 1;
-                            }
+                    if (value != null) {
+                        if (value.length < 1) {
+                            validatedElements.FEEDTABLE.emptyCellsContent[index] += 1;
                         }
+                    } else {
+                        validatedElements.FEEDTABLE.emptyCellsContent[index] += 1;
+                    }
+                    for (var prop in validatedElements) {
+
                         if (validatedElements[prop].found && index == validatedElements[prop].columnIndex &&
                             (prop == 'SKU' || prop == 'IMAGE URL' || prop == 'DEEPLINK URL')) {
                             validatedElements[prop].arrayOfValues.push(value.trim());
                         }
                     }
                     // console.log('%d: %s', index, value);
-
                 });
                 if (lineCounter < 1001) {
                     validatedElements.FEEDTABLE.sampleItems.push(content);
@@ -59,8 +59,9 @@ async function validateFileConent(file, delimiter, validatedElements) {
             for (var prop in validatedElements) {
                 if (validatedElements[prop].found) {
                     validatedElements[prop].totalCells = lineCounter - 1;
-                    validatedElements[prop].filledCells = lineCounter - 1 - validatedElements[prop].emptyCells;
-                    let calc100 = Math.abs(100 - ((validatedElements[prop].emptyCells / (lineCounter - 1)) * 100));
+                    // validatedElements[prop].filledCells = lineCounter - 1 - validatedElements[prop].emptyCells;
+                    validatedElements[prop].filledCells = lineCounter - 1 - validatedElements.FEEDTABLE.emptyCellsContent[validatedElements[prop].columnIndex];
+                    let calc100 = Math.abs(100 - ((validatedElements.FEEDTABLE.emptyCellsContent[validatedElements[prop].columnIndex] / (lineCounter - 1)) * 100));
                     validatedElements[prop].percentFilledCells = roundDigits(calc100);
                 }
             }

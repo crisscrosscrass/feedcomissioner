@@ -14,7 +14,7 @@ const convertJsonToCsv = require('../modules/convertJsonToCsv');
 const loadSyncConfig = require('../modules/loadSyncConfig');
 const getSyncMapping = require('../modules/syncMapping');
 const getHeadersFromCSV = require('../modules/loadHeadersFromCSV');
-const getTopDelimiter = require('../modules/detectDelimiter');
+const getTopSeparator = require('../modules/detectDelimiter');
 const validateAllAttributesViaFeed = require('../modules/validatedElements')
 const validateFileConent = require('../modules/validateFileContent')
 
@@ -28,8 +28,13 @@ router.post('/download_file', (req, res) => {
         if (exist) {
             downloadFile('' + req.body.url + '', function(fileName) {
                 console.log('done with loading', fileName);
-                detectedFile = createResponseObject(`Your file: ${fileName} has been downloaded.`, path.extname('./feeds/' + fileName), true, fileName);
-                res.json({ detectedFile });
+                if (!fs.statSync(path.dirname(__dirname) + '/feeds/' + fileName).size < 1) {
+                    detectedFile = createResponseObject(`Your file: ${fileName} has been loaded.`, path.extname('./feeds/' + fileName), true, fileName);
+                    res.json({ detectedFile });
+                } else {
+                    detectedFile = createResponseObject(`File ${fileName} can't be empty, might be blocked from downloading`, "", false, "");
+                    res.json({ detectedFile });
+                }
             });
         } else {
             detectedFile = createResponseObject(`Folder needs to be created first`, "", false, "");
@@ -133,7 +138,9 @@ router.post('/convert_json_file', (req, res) => {
         res.json({ detectedFile });
     });
 });
-
+String.prototype.removeDelimiter = function() {
+    return this.replace(/\"/g, "").replace(/\'/g, "");
+};
 router.post('/validate_file', (req, res) => {
     console.log("=========================validate_file=================")
     dest = "" + path.dirname(__dirname) + '/feeds/';
@@ -141,36 +148,22 @@ router.post('/validate_file', (req, res) => {
 
     async function readAndValidate() {
         var headerValues = await getHeadersFromCSV(dest + fileName);
-        var delimiter = await getTopDelimiter(headerValues);
-        headerValues = headerValues.toLocaleLowerCase().split(delimiter.sign)
+        headerValues = headerValues.removeDelimiter();
+        var separator = await getTopSeparator(headerValues);
+        headerValues = headerValues.toLocaleLowerCase().split(separator.sign)
         fileType = path.extname('./feeds/' + req.body.fileName);
         syncMappingXMLFile = "" + path.dirname(__dirname) + '/ressources/data/SyncMapping_QM.xml';
         var mappingFile = await loadSyncConfig(syncMappingXMLFile);
         var syncMapping = await getSyncMapping(mappingFile);
-        let validatedElements = await validateAllAttributesViaFeed(syncMapping, delimiter, headerValues);
-        validatedElements = await validateFileConent(dest + fileName, delimiter, validatedElements)
+        let validatedElements = await validateAllAttributesViaFeed(syncMapping, separator, headerValues);
+        validatedElements = await validateFileConent(dest + fileName, separator, validatedElements)
         detectedFile = createResponseObject("Analyze CSV File", fileType, true, fileName);
         detectedFile.validatedElements = validatedElements
-        res.json({ detectedFile });
-        return
+
+        return res.json({ detectedFile });
     }
 
     readAndValidate();
-    // getHeadersFromCSV(dest + fileName)
-    //     .then((headerValues) => {
-    //         return getTopDelimiter(headerValues)
-    //     })
-    //     .then((data) => {
-    //         console.log(data);
-    //         // arrayValues = headerValues.toLocaleLowerCase().split(delimiter.sign);
-    //         // console.log(headerValues);
-    //         fileType = path.extname('./feeds/' + req.body.fileName);
-    //         detectedFile = createResponseObject("Analyze CSV File", fileType, true, fileName);
-    //         res.json({ message: "Big as hell", fileName: req.body.fileName });
-    //     }).catch((error) => { console.log(error); });
-    // fileType = path.extname('./feeds/' + req.body.fileName);
-    // detectedFile = createResponseObject("Analyze CSV File", fileType, true, req.body.fileName);
-    // res.json({ message: "Big as hell", fileName: req.body.fileName });
 });
 
 router.post('/cleaning_feeds', (req, res) => {

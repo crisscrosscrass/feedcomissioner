@@ -14,6 +14,7 @@
     <script src="js/feedmanager.js"></script>
     <script src="js/FeedAnalysis.js"></script>
     <script src="js/PreviewItems.js"></script>
+    <script src="js/MappingTool.js"></script>
 </head>
 
 <body>
@@ -34,6 +35,10 @@
             <input type="text" name="url" class="form-control" id="feedURL" placeholder="Feed URL" required autofocus>
             <button class="btn btn-lg btn-primary btn-block" id="downloadFile" type="button">Download</button>
         </form>
+        <div id="MappingSetting" class="ui-widget-content">
+            <div id="MappingSelection"></div>
+            <div id="outputMapping"></div>
+        </div>
         <p id="AjaxOutput"></p>
         <div id="check"> </div>
         <%- include ('loadingHexagon') %>
