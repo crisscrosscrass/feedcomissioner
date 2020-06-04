@@ -3,16 +3,31 @@ class FeedAnalysis {
         this.writelocation = document.getElementById("check");
         //schalter === true ? writelocation = document.getElementById("check2") : "";
         this.validatedElements = validatedElements;
+        this.headerValues = validatedElements.FEEDTABLE.headerValues;
         this.tableLines = validatedElements.FEEDTABLE.products;
         this.maxtableColumns = validatedElements.FEEDTABLE.attributes;
         this.init();
     }
     init() {
+
         this.underlineHeader();
         this.analyzeOverview();
         this.analyzeMandatory();
         this.analyzeOther();
         this.analyzeDuplicateOverview();
+        // this.setSelectOptions();
+        this.addValidateButton();
+    }
+    callMapping() {
+        new MappingSettingTool(globalValidatedElements)
+    }
+    addValidateButton() {
+        let location = document.getElementById("analyzeDuplicateOverview");
+        this.validateButton = document.createElement("BUTTON");
+        this.validateButton.value = "VALIDATE";
+        this.validateButton.innerHTML = ' <h1 style="margin: 0;">' + "VALIDATE" + '</h1>';;
+        this.validateButton.setAttribute("onclick", "callMappingTool()")
+        location.append(this.validateButton);
     }
     underlineHeader() {
         this.writelocation.innerHTML = '<h2 id="underlineHeader"><strong style="font-size: 30px;font-family: Raleway;">Feed Analysis </strong></h2>';
@@ -31,6 +46,7 @@ class FeedAnalysis {
             if (key.found && content <= 0) {
                 span.setAttribute("class", "notFound");
                 span.innerHTML += header + ' <h1 style="margin: 0;">' + "&#8275;" + '</h1>'; // ⁓
+                span.setAttribute("title", "Column: " + key.columnName);
             } else if (!key.found || content <= 0) {
                 span.setAttribute("class", "noDeal");
                 span.innerHTML += header + ' <h1 style="margin: 0;">' + "&#10008;" + '</h1>'; // ✘
@@ -56,6 +72,27 @@ class FeedAnalysis {
         td.innerHTML += content;
         td.setAttribute("class", classname);
         location.appendChild(td);
+    }
+    addSelectAndOptions(name, classname, location) {
+        let td = document.createElement("TD");
+        td.innerHTML += "";
+        td.setAttribute("class", classname + " selectable select-css");
+        location.appendChild(td);
+        var select = document.createElement("SELECT");
+        select.setAttribute("id", name);
+        for (var j = 0; j < this.headerValues.length; j++) {
+            let option = document.createElement("option");
+            option.setAttribute("id", j);
+            option.value = this.headerValues[j];
+            option.innerHTML = this.headerValues[j];
+            select.appendChild(option);
+        }
+        let option = document.createElement("option");
+        option.setAttribute("id", this.headerValues.length + 1);
+        option.value = "not found";
+        option.innerHTML = "not found";
+        select.appendChild(option);
+        td.appendChild(select);
     }
     createTableCellPercentContent(key, location, css) {
         var td = document.createElement("TD");
@@ -139,6 +176,50 @@ class FeedAnalysis {
         }
         location.appendChild(tr);
     }
+    createSelectableColumnNamesRow(namingAttributesMandatory, namingAttributesImportant, location, css = false) {
+        var tr = document.createElement("TR");
+        tr.setAttribute("id", "Value");
+        for (let i = 0; i < namingAttributesMandatory.length; i++) {
+            if (this.validatedElements[namingAttributesMandatory[i]].found) {
+                this.addSelectAndOptions('' + namingAttributesMandatory[i] + '', ' ', tr);
+            } else {
+                css ? this.addSelectAndOptions(namingAttributesMandatory[i], "", tr) : this.addSelectAndOptions(namingAttributesMandatory[i], "missing", tr);
+            }
+        }
+        for (let i = 0; i < namingAttributesImportant.length; i++) {
+            if (this.validatedElements[namingAttributesImportant[i]].found) {
+                this.addSelectAndOptions("" + namingAttributesImportant[i] + "", " ", tr);
+            } else {
+                css ? this.addSelectAndOptions(namingAttributesImportant[i], "", tr) : this.addSelectAndOptions(namingAttributesImportant[i], "missing", tr);
+            }
+        }
+        location.appendChild(tr);
+    }
+    setSelectOptions() {
+        Object.keys(this.validatedElements).forEach((key) => {
+            if (this.validatedElements[key].hasOwnProperty('found')) {
+                if (this.validatedElements[key].hasOwnProperty('columnName')) {
+                    console.log(key, this.validatedElements[key].columnName);
+                    console.log(document.getElementById(key), this.validatedElements[key].columnName);
+                    if (document.getElementById(key) != null) {
+                        document.getElementById(key).value = this.validatedElements[key].columnName
+                    }
+                } else {
+                    console.log(key)
+                    if (document.getElementById(key) != null) {
+                        document.getElementById(key).value = "not found"
+                    }
+                }
+            }
+        });
+    }
+    selectElement(id, valueToSelect) {
+        console.log(id, document.getElementById(id), valueToSelect)
+        let element = document.getElementById(id);
+        if (element != null) {
+            return element.value = valueToSelect;
+        }
+    }
     createColumnPercentRow(namingAttributesMandatory, namingAttributesImportant, location, css = false) {
         let tr = document.createElement("TR");
         tr.setAttribute("id", "Value");
@@ -182,7 +263,8 @@ class FeedAnalysis {
         // add Rows to Table
         this.createAttributeRow(namingAttributesMandatory, "mandatoryfeedattributes", namingAttributesImportant, "importantfeedattributes", table);
         this.createFoundIconRow(namingAttributesMandatory, namingAttributesImportant, table);
-        this.createColumnNamesRow(namingAttributesMandatory, namingAttributesImportant, table);
+        // this.createColumnNamesRow(namingAttributesMandatory, namingAttributesImportant, table);
+        this.createSelectableColumnNamesRow(namingAttributesMandatory, namingAttributesImportant, table);
         this.createColumnPercentRow(namingAttributesMandatory, namingAttributesImportant, table)
     }
     analyzeOther() {
@@ -203,7 +285,8 @@ class FeedAnalysis {
         // add Rows to Table
         this.createAttributeRow(namingAttributesMandatory, "otherfeedattributes", namingAttributesImportant, "otherfeedattributes", table);
         this.createFoundIconRow(namingAttributesMandatory, namingAttributesImportant, table, true);
-        this.createColumnNamesRow(namingAttributesMandatory, namingAttributesImportant, table, true);
+        // this.createColumnNamesRow(namingAttributesMandatory, namingAttributesImportant, table, true);
+        this.createSelectableColumnNamesRow(namingAttributesMandatory, namingAttributesImportant, table, true);
         this.createColumnPercentRow(namingAttributesMandatory, namingAttributesImportant, table, true);
     }
     analyzeDuplicateOverview() {
@@ -214,4 +297,10 @@ class FeedAnalysis {
         this.createConditionalBadge("Image duplicates", false, this.validatedElements['IMAGE URL'].percentOfDuplicates, div, true);
         this.createConditionalBadge("DeepURL duplicates", false, this.validatedElements['DEEPLINK URL'].percentOfDuplicates, div, true);
     }
+
+}
+
+function callMappingTool() {
+    // new MappingSettingTool(globalValidatedElements)
+    new ValidateFeedAnalysis(globalValidatedElements);
 }

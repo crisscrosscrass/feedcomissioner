@@ -15,6 +15,7 @@
     <script src="js/FeedAnalysis.js"></script>
     <script src="js/PreviewItems.js"></script>
     <script src="js/MappingTool.js"></script>
+    <script src="js/ValidateFeedAnalysis.js"></script>
 </head>
 
 <body>
@@ -34,6 +35,8 @@
         <form id="feedCommissioner" class="form-signin" action="/signUp" method="post" role="form">
             <input type="text" name="url" class="form-control" id="feedURL" placeholder="Feed URL" required autofocus>
             <button class="btn btn-lg btn-primary btn-block" id="downloadFile" type="button">Download</button>
+            <button class="btn btn-lg btn-primary btn-block" id="uploadFile" type="button">Upload</button>
+            <button class="btn btn-lg btn-primary btn-block" id="clearFiles" type="button">Clear</button>
         </form>
         <div id="MappingSetting" class="ui-widget-content">
             <div id="MappingSelection"></div>
@@ -46,6 +49,9 @@
                 $(function() {
                     $('#downloadFile').click(function() {
                         new FeedManager();
+                    });
+                    $('#clearFiles').click(function() {
+                        new FeedManager(true);
                     });
                 });
                 $(document).ajaxStart(function() {

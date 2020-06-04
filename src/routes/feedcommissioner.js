@@ -26,16 +26,21 @@ router.post('/download_file', (req, res) => {
     console.log("=========================download_file=================")
     checkfolder(path.dirname(__dirname) + '/feeds/', (exist) => {
         if (exist) {
-            downloadFile('' + req.body.url + '', function(fileName) {
-                console.log('done with loading', fileName);
-                if (!fs.statSync(path.dirname(__dirname) + '/feeds/' + fileName).size < 1) {
-                    detectedFile = createResponseObject(`Your file: ${fileName} has been loaded.`, path.extname('./feeds/' + fileName), true, fileName);
-                    res.json({ detectedFile });
-                } else {
-                    detectedFile = createResponseObject(`File ${fileName} can't be empty, might be blocked from downloading`, "", false, "");
-                    res.json({ detectedFile });
-                }
-            });
+            if (req.body.url.length > 5) {
+                downloadFile('' + req.body.url + '', function(fileName) {
+                    console.log('done with loading', fileName);
+                    if (!fs.statSync(path.dirname(__dirname) + '/feeds/' + fileName).size < 1) {
+                        detectedFile = createResponseObject(`Your file: ${fileName} has been loaded.`, path.extname('./feeds/' + fileName), true, fileName);
+                        res.json({ detectedFile });
+                    } else {
+                        detectedFile = createResponseObject(`File ${fileName} can't be empty, might be blocked from downloading`, "", false, "");
+                        res.json({ detectedFile });
+                    }
+                });
+            } else {
+                detectedFile = createResponseObject(`URL needs to be valid`, "", false, "");
+                res.json({ detectedFile });
+            }
         } else {
             detectedFile = createResponseObject(`Folder needs to be created first`, "", false, "");
             res.json({ detectedFile });
@@ -169,7 +174,7 @@ router.post('/validate_file', (req, res) => {
 router.post('/cleaning_feeds', (req, res) => {
     console.log("=========================cleaning all files from folder feeds=================")
     deleteAllFilesFromFeeds();
-    detectedFile = createResponseObject(`Your Folder is empty now`, "", true, "");
+    detectedFile = createResponseObject(`Your Online Folder is empty now`, "", true, "");
     res.json({ detectedFile });
 });
 

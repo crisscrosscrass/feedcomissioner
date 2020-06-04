@@ -100,7 +100,23 @@ class FeedManager {
             $("#AjaxOutput").append('<br/>');
             new FeedAnalysis(response.detectedFile.validatedElements);
             new PreviewItems(maxSamples, response.detectedFile.validatedElements);
+            namingFeedAnalysis(response.detectedFile.validatedElements);
             return globalValidatedElements = response.detectedFile.validatedElements;
+        });
+    }
+    namingFeedAnalysis(globalValidatedElements) {
+        Object.keys(globalValidatedElements).forEach((key) => {
+            if (globalValidatedElements[key].hasOwnProperty('found')) {
+                if (globalValidatedElements[key].hasOwnProperty('columnName')) {
+                    if (document.getElementById(key) != null) {
+                        document.getElementById(key).value = globalValidatedElements[key].columnName
+                    }
+                } else {
+                    if (document.getElementById(key) != null) {
+                        document.getElementById(key).value = "not found"
+                    }
+                }
+            }
         });
     }
     cleanupFeeds() {
@@ -113,4 +129,20 @@ class FeedManager {
         });
     }
 
+}
+
+function namingFeedAnalysis(globalValidatedElements) {
+    Object.keys(globalValidatedElements).forEach((key) => {
+        if (globalValidatedElements[key].hasOwnProperty('found')) {
+            if (globalValidatedElements[key].hasOwnProperty('columnName')) {
+                if (document.getElementById(key) != null) {
+                    document.getElementById(key).value = globalValidatedElements[key].columnName
+                }
+            } else {
+                if (document.getElementById(key) != null) {
+                    document.getElementById(key).value = "not found"
+                }
+            }
+        }
+    });
 }

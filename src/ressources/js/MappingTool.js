@@ -87,8 +87,8 @@ class MappingSettingTool {
         // new FeedAnalysis(response.detectedFile.validatedElements);
         // new PreviewItems(maxSamples, response.detectedFile.validatedElements);
         // new ValidateAndPreview(maxSamples, false, this.validatedElements);
-        new FeedAnalysis(globalValidatedElements);
-        new PreviewItems(maxSamples, globalValidatedElements);
+        new FeedAnalysis(this.validatedElements);
+        new PreviewItems(maxSamples, this.validatedElements);
     }
     setNotFound(key) {
         this.validatedElements[key].found = false;
