@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 var http = require('http');
 var https = require('https');
+const formidable = require('formidable');
 const fs = require('fs');
 const path = require('path');
 const decompress = require('decompress');
@@ -44,6 +45,24 @@ router.post('/download_file', (req, res) => {
         } else {
             detectedFile = createResponseObject(`Folder needs to be created first`, "", false, "");
             res.json({ detectedFile });
+        }
+    });
+});
+
+router.post('/upload_file', (req, res) => {
+    console.log("=========================upload_file=================")
+    checkfolder(path.dirname(__dirname) + '/feeds/', (exist) => {
+        if (exist) {
+            var form = new formidable.IncomingForm();
+            form.parse(req);
+            form.on('fileBegin', function(name, file) {
+                file.path = path.dirname(__dirname) + '/feeds/' + file.name;
+            });
+            form.on('file', function(name, file) {
+                console.log('Uploaded ' + file.name);
+                detectedFile = createResponseObject(`File ${file.name} has been uploaded`, path.extname('./feeds/' + file.name), true, file.name);
+                res.json({ detectedFile });
+            });
         }
     });
 });

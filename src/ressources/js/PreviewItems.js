@@ -9,6 +9,7 @@ function createAndAdjustSampleItems(maxSamples) {
     // createSampleItems(maxSamples)
     //new SampleItems(maxSamples);
     new PreviewItems(maxSamples, globalValidatedElements);
+    namingFeedAnalysis(globalValidatedElements);
 }
 var maxSamples = 10;
 class PreviewItems {

@@ -35,7 +35,10 @@
         <form id="feedCommissioner" class="form-signin" action="/signUp" method="post" role="form">
             <input type="text" name="url" class="form-control" id="feedURL" placeholder="Feed URL" required autofocus>
             <button class="btn btn-lg btn-primary btn-block" id="downloadFile" type="button">Download</button>
-            <button class="btn btn-lg btn-primary btn-block" id="uploadFile" type="button">Upload</button>
+            <div class="upload-btn-wrapper">
+                <button class="btn btn-lg btn-primary btn-block" id="uploadFile">Upload a file</button>
+                <input type="file" name="file" id="file" required />
+            </div>
             <button class="btn btn-lg btn-primary btn-block" id="clearFiles" type="button">Clear</button>
         </form>
         <div id="MappingSetting" class="ui-widget-content">
@@ -49,6 +52,9 @@
                 $(function() {
                     $('#downloadFile').click(function() {
                         new FeedManager();
+                    });
+                    $("#file").change(function() {
+                        new FeedManager(false, true);
                     });
                     $('#clearFiles').click(function() {
                         new FeedManager(true);

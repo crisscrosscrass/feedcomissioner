@@ -1,10 +1,7 @@
 var globalValidatedElements;
 class FeedManager {
-    constructor(cleaning = false) {
-        cleaning ? this.cleanupFeeds() : this.init();
-    }
-    init() {
-        this.downloadFile();
+    constructor(cleaning = false, upload = false) {
+        cleaning ? this.cleanupFeeds() : upload ? this.uploadFile() : this.downloadFile();
     }
     dynamicAjax(urlServer, data, callback) {
         $.ajax({
@@ -33,6 +30,31 @@ class FeedManager {
                 this.proceedFile(response.detectedFile.fileName, response.detectedFile.fileType);
             }
         })
+    }
+    uploadFile() {
+        var formData = new FormData();
+        formData.append('file', $('input[type=file]')[0].files[0]);
+        var uploaded = this;
+        // e.preventDefault();
+        $.ajax({
+            url: "/upload_file", // Url to which the request is send
+            type: "POST", // Type of request to be send, called as method
+            data: formData, // Data sent to server, a set of key/value pairs (i.e. form fields and values)
+            contentType: false, // The content type used when sending data to the server.
+            asynch: true,
+            cache: false, // To unable request pages to be cached
+            processData: false, // To send DOMDocument or non processed data file it is set to false
+            success: function(response) {
+                $("#AjaxOutput").empty().append(response.detectedFile.message + '<br/>');
+                if (response.detectedFile.proceed) {
+                    uploaded.proceedFile(response.detectedFile.fileName, response.detectedFile.fileType);
+                }
+            },
+            complete: function() {},
+            error: function() {
+                source.close();
+            },
+        });
     }
     proceedFile(fileName, fileType) {
         console.log('fileName: ', fileName, 'fileType: ', fileType);

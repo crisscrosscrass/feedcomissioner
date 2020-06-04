@@ -23,7 +23,6 @@ class ValidateFeedAnalysis {
     }
     setFound(key, name) {
         let index = this.getColumnIndexFromArray(name);
-        console.log(index);
         this.validatedElements[key].found = true;
         this.validatedElements[key].columnName = name;
         this.validatedElements[key].columnIndex = index;
@@ -41,17 +40,14 @@ class ValidateFeedAnalysis {
     }
     removeProperty(key, attribute) {
         if (this.validatedElements[key].hasOwnProperty(attribute)) {
-            console.log("remove " + attribute);
             return delete this.validatedElements[key][attribute];
         }
     }
     mappingValidate() {
         Object.keys(this.validatedElements).forEach((key) => {
             if (this.validatedElements[key].hasOwnProperty('found')) {
-                console.log(key, document.getElementById(key))
                 if (document.getElementById(key) != null) {
                     let value = document.getElementById(key).value;
-                    console.log(value);
                     if (value == "not found") {
                         this.setNotFound(key);
                     } else {
