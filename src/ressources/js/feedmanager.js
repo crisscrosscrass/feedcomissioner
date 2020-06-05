@@ -1,5 +1,6 @@
 // Make socket io connection
-var socket = io.connect('http://localhost:8060');
+// var socket = io.connect('http://localhost:8060');
+var socket = io.connect('http://feeddetective.office.vm/');
 
 function sendingtoSockets() {
     return socket.emit('progress', {
