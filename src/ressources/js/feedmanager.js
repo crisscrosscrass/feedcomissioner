@@ -1,3 +1,23 @@
+// Make socket io connection
+var socket = io.connect('http://localhost:8060');
+
+function sendingtoSockets() {
+    return socket.emit('progress', {
+        message: "Progressing with download",
+        handle: "something"
+    })
+}
+
+function listenToSockets() {
+
+}
+socket.on('progress', (data) => {
+    if (data.handle == "loaded") {
+        //console.log(data);
+        document.getElementById("percentLoader").innerHTML = data.message;
+    }
+});
+
 var globalValidatedElements;
 class FeedManager {
     constructor(cleaning = false, upload = false) {
@@ -23,6 +43,7 @@ class FeedManager {
     }
     downloadFile() {
         this.showInfo("Downloading...");
+
         this.dynamicAjax('/download_file', $('form').serialize(), (response) => {
             console.log(response);
             $("#AjaxOutput").empty().append(response.detectedFile.message + '<br/>');
@@ -57,6 +78,7 @@ class FeedManager {
         });
     }
     proceedFile(fileName, fileType) {
+        $("#percentLoader").empty().append('');
         console.log('fileName: ', fileName, 'fileType: ', fileType);
         if (fileType == ".gz" || fileType == ".zip") {
             console.log('%cDECOMPRESS', 'background-color: black; color: red; font-weight: bold;');

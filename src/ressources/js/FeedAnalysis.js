@@ -22,12 +22,15 @@ class FeedAnalysis {
         new MappingSettingTool(globalValidatedElements)
     }
     addValidateButton() {
+        let div = document.createElement("DIV");
+        div.setAttribute("id", "analyzeValidate");
+        this.writelocation.appendChild(div);
         let location = document.getElementById("analyzeDuplicateOverview");
         this.validateButton = document.createElement("BUTTON");
         this.validateButton.value = "VALIDATE";
         this.validateButton.innerHTML = ' <h1 style="margin: 0;">' + "VALIDATE" + '</h1>';;
         this.validateButton.setAttribute("onclick", "callMappingTool()")
-        location.append(this.validateButton);
+        div.append(this.validateButton);
     }
     underlineHeader() {
         this.writelocation.innerHTML = '<h2 id="underlineHeader"><strong style="font-size: 30px;font-family: Raleway;">Feed Analysis </strong></h2>';

@@ -309,6 +309,11 @@ table#TableWindow td.data {
     border: 1px solid rgba(180, 180, 180, 1);
 }
 
+#analyzeValidate button {
+    min-width: 530px;
+    font-family: Raleway;
+}
+
 #validateButtonFeedAnalysis {
     text-align: center;
     font-family: "Raleway";
@@ -673,6 +678,13 @@ td.data {
     margin-left: -100px;
     top: 45%;
     margin-top: -100px;
+}
+
+#percentLoader {
+    color: white;
+    position: absolute;
+    left: 40%;
+    bottom: 30%;
 }
 
 .socket h1 {

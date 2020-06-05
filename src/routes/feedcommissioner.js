@@ -20,15 +20,25 @@ const validateAllAttributesViaFeed = require('../modules/validatedElements')
 const validateFileConent = require('../modules/validateFileContent')
 
 router.get('/', (req, res) => {
+    var io = req.app.get('socketio');
+    io.on('connection', function(socket) {
+        console.log("Made Socket connection!", socket.id);
+
+        socket.on('progress', (data) => {
+            console.log(data)
+            io.sockets.emit('progress', data)
+        })
+    })
     res.render('index', { text: "Used to validate big Data Feeds" });
 })
 
 router.post('/download_file', (req, res) => {
     console.log("=========================download_file=================")
+    const io = req.app.get('socketio');
     checkfolder(path.dirname(__dirname) + '/feeds/', (exist) => {
         if (exist) {
             if (req.body.url.length > 5) {
-                downloadFile('' + req.body.url + '', function(fileName) {
+                downloadFile('' + req.body.url + '', io, function(fileName) {
                     console.log('done with loading', fileName);
                     if (!fs.statSync(path.dirname(__dirname) + '/feeds/' + fileName).size < 1) {
                         detectedFile = createResponseObject(`Your file: ${fileName} has been loaded.`, path.extname('./feeds/' + fileName), true, fileName);

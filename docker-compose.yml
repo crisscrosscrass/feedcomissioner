@@ -5,6 +5,6 @@ services:
     image: commissioner:latest
     container_name: commissioner.office.vm
     ports:
-      - 8060:5000
+      - 8060:8060
     volumes:
     - .:/feed-commissioner 
