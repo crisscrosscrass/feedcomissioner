@@ -3,7 +3,7 @@ const path = require('path');
 const convertJsonToCsv = require('../modules/convertJsonToCsv');
 const converter = require('json-2-csv');
 fileName = "google_com.json";
-fileName = "ladenzeile.json";
+fileName = "copy.json";
 //fileName = "rblcln_feed_de.json";
 newFilename = fileName.slice(0, -5) + '.csv';
 

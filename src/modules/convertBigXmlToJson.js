@@ -5,8 +5,6 @@ var sax = require("../node_modules/sax/lib/sax"),
     parser = sax.parser(strict);
 
 const convertBigXmlToJson = function(dest, fileName, cb) {
-    fs.writeFileSync(dest + fileName + "-copy.json", "");
-    var data_array = [];
     file = dest + fileName
         //var saxStream = require("sax").createStream(strict, options)
     var saxStream = require("sax").createStream(strict)
@@ -19,23 +17,27 @@ const convertBigXmlToJson = function(dest, fileName, cb) {
         this._parser.resume()
     })
     saxStream.on("ontext", function(node) {
-        console.log(node);
-        console.log(node.name);
+        console.log("ON TEXT", node);
     })
-    saxStream.on("opentag", function(node) {
+    saxStream.on("onattribute", function(node) {
         // same object as above
-        fs.appendFileSync(dest + fileName + "-copy.txt", JSON.stringify(node, null, 4), function(err) {
-            if (err) throw err;
-            console.log('Saved!');
-        });
+        console.log("ON ATTRIBUTE", node);
     })
+    saxStream.onopentag = function(node) {
+        // opened a tag.  node has "name" and "attributes"
+        // console.log("ON OPEN TAG", node);
+    };
+    saxStream.onend = function(node) {
+        // opened a tag.  node has "name" and "attributes"
+        console.log(node);
+    };
     saxStream.on("close", function(node) {
         // same object as above
         cb("fileNameXYZ")
     })
     fs.createReadStream(file)
         .pipe(saxStream)
-        //.pipe(fs.createWriteStream(dest + fileName + "-copy.json"))
+        .pipe(fs.createWriteStream(dest + fileName + "-copy.xml"))
 }
 
 module.exports = convertBigXmlToJson;

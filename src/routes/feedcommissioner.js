@@ -18,6 +18,9 @@ const getHeadersFromCSV = require('../modules/loadHeadersFromCSV');
 const getTopSeparator = require('../modules/detectDelimiter');
 const validateAllAttributesViaFeed = require('../modules/validatedElements')
 const validateFileConent = require('../modules/validateFileContent')
+const getXMLHeadersFromFile = require('../modules/getHeaderFromXML');
+const convertBigXMLToCSV = require('../modules/convertBigXMLToCSV');
+const detectXMLNodes = require('../modules/detectXMLNodes');
 
 router.get('/', (req, res) => {
     var io = req.app.get('socketio');
@@ -68,6 +71,13 @@ router.post('/upload_file', (req, res) => {
             form.on('fileBegin', function(name, file) {
                 file.path = path.dirname(__dirname) + '/feeds/' + file.name;
             });
+            form.on('data', function(res) {
+                //console.log(res);
+                received_bytes += res.length;
+
+                showProgress(received_bytes, total_bytes);
+                // console.log(res.headers['content-length']);
+            })
             form.on('file', function(name, file) {
                 console.log('Uploaded ' + file.name);
                 detectedFile = createResponseObject(`File ${file.name} has been uploaded`, path.extname('./feeds/' + file.name), true, file.name);
@@ -145,15 +155,35 @@ router.post('/convert_xml_file', (req, res) => {
     fileName = req.body.fileName
     fileType = path.extname('./feeds/' + req.body.fileName);
     detectedFile = createResponseObject("Convert XML to CSV", fileType, true, fileName);
-
-    convertXmlToJson(dest, fileName, function(fileName) {
-        console.log('done XML > JSON, new file: ', fileName);
-        detectedFile.fileName = fileName;
-        detectedFile.fileType = path.extname('./feeds/' + fileName);
-        detectedFile.message = 'Converted XML to JSON';
-        console.log(detectedFile);
-        res.json({ detectedFile });
-    });
+    try {
+        convertXmlToJson(dest, fileName, function(fileName) {
+            console.log('done XML > JSON, new file: ', fileName);
+            detectedFile.fileName = fileName;
+            detectedFile.fileType = path.extname('./feeds/' + fileName);
+            detectedFile.message = 'Converted XML to JSON';
+            console.log(detectedFile);
+            res.json({ detectedFile });
+        });
+    } catch (error) {
+        if (error.code == "ERR_STRING_TOO_LONG") {
+            console.log("Feed too big");
+            async function bigXMLToCSV() {
+                elementNode = await detectXMLNodes(dest, fileName);
+                console.log(elementNode)
+                if (elementNode != "unknown") {
+                    var header = await getXMLHeadersFromFile(dest + fileName);
+                    var file = await convertBigXMLToCSV(dest, fileName, header, elementNode);
+                    detectedFile = createResponseObject("Convert XML to <strong>smaller CSV File </strong> due size and time", path.extname('./feeds/' + file), true, file)
+                    console.log("converted into", file);
+                    res.json({ detectedFile });
+                } else {
+                    detectedFile = createResponseObject(`Can't find Item nodes in ${fileName} , unable to process from here`, "", false, "");
+                    res.json({ detectedFile });
+                }
+            }
+            bigXMLToCSV();
+        }
+    }
 });
 
 router.post('/convert_json_file', (req, res) => {

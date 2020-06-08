@@ -47,7 +47,7 @@ async function validateFileConent(file, delimiter, validatedElements) {
                     }
                     // console.log('%d: %s', index, value);
                 });
-                if (lineCounter < 1001) {
+                if (lineCounter < 2001) {
                     validatedElements.FEEDTABLE.sampleItems.push(content);
                 }
 
