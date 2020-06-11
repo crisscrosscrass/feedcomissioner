@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
             // console.log(file, getFilesizeInBytes(file));
     });
     console.log(feedList);
-    res.render('listingFiles', { text: "All stored Files", feedList }, );
+    res.render('listingfiles', { text: "All stored Files", feedList }, );
 })
 router.get('/:filename', (req, res) => {
     let feedList = [];
