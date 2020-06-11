@@ -4,7 +4,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const sampleRouter = require('./routes/sample')
-const processRouter = require('./routes/processPercent')
+const filesRouter = require('./routes/listingfiles')
 const feedcommissionerRouter = require('./routes/feedcommissioner')
 const app = express()
 
@@ -22,7 +22,7 @@ app.post(function(req, res, next) {
 app.use(express.static(__dirname + '/ressources'));
 app.use('/feeds', express.static(__dirname + '/feeds'));
 app.use('/sample', sampleRouter)
-app.use('/process', processRouter)
+app.use('/files', filesRouter)
 app.use('/', feedcommissionerRouter)
 var server = app.listen(8060, '0.0.0.0', function() {
     console.log("listening to request on port 8060");

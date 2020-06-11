@@ -29,7 +29,11 @@ async function validateFileConent(file, delimiter, validatedElements) {
 
         lineReader.on('line', function(line) {
             if (!lineCounter < 1) {
-                content = line.toLocaleLowerCase().split(delimiter.sign);
+                // content = line.toLocaleLowerCase().split(delimiter.sign);
+                content = line.split(delimiter.sign);
+                content = content.map((value) => {
+                    return value.replace(/\"/g, "").replace(/\'/g, "");
+                });
                 content.forEach(function(value, index) {
                     if (value != null) {
                         if (value.length < 1) {

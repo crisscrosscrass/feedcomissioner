@@ -44,6 +44,41 @@ h1 {
     z-index: 2;
 }
 
+#toolsModal {
+    color: white;
+    width: 90%;
+    z-index: 2;
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    z-index: 99;
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.9);
+    /* Black w/ opacity */
+}
+
+#filesMenu,
+#splitterMenu {
+    position: relative;
+    margin: 2%;
+    padding: 1%;
+    z-index: 2;
+    border: 1px solid white;
+}
+
+input[type="text"]#splitterMenu::-webkit-input-placeholder {
+    color: black;
+}
+
 .header {
     position: relative;
     width: 100%;
@@ -99,11 +134,23 @@ h1 {
 #clearFiles {
     margin-top: 10px;
     margin-left: 5px;
-    background-color: #c64c4c;
+    background-color: #e4003d;
     width: 110px;
     height: 35px;
     color: white;
-    border: 1px solid #c64c4c;
+    border: 1px solid #e4003d;
+    box-shadow: 0px 3px 5px grey;
+    cursor: pointer;
+}
+
+#tools {
+    margin-top: 10px;
+    margin-left: 5px;
+    background-color: #e83062;
+    width: 110px;
+    height: 35px;
+    color: white;
+    border: 1px solid #e83062;
     box-shadow: 0px 3px 5px grey;
     cursor: pointer;
 }
@@ -136,7 +183,7 @@ input#feedURL {
     box-shadow: 0px 3px 5px grey;
 }
 
-input[type="text"]::-webkit-input-placeholder {
+input[type="text"]#feedURL::-webkit-input-placeholder {
     color: white;
 }
 

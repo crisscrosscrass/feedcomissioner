@@ -79,6 +79,9 @@ class FeedManager {
             },
         });
     }
+    addDownloadFileButton(fileName) {
+        $("#AjaxOutput").append('<a href="' + window.location.href + 'files/' + fileName + '" target="_blank" class="downloadButton" title="' + fileName + '" >Download</a>');
+    }
     proceedFile(fileName, fileType) {
         $("#percentLoader").empty().append('');
         console.log('fileName: ', fileName, 'fileType: ', fileType);
@@ -104,7 +107,7 @@ class FeedManager {
         this.dynamicAjax('/decrompress_file', { fileName: fileName }, (response) => {
             console.log(response);
             $("#AjaxOutput").append(response.detectedFile.message);
-            $("#AjaxOutput").append('<a href="' + window.location.href + 'feeds/' + response.detectedFile.fileName + '" target="_blank" class="downloadButton" title="' + response.detectedFile.fileName + '" >Download</a>');
+            this.addDownloadFileButton(response.detectedFile.fileName);
             $("#AjaxOutput").append('<br/>');
             this.proceedFile(response.detectedFile.fileName, response.detectedFile.fileType);
         });
@@ -122,7 +125,7 @@ class FeedManager {
         this.dynamicAjax('/convert_xml_file', { fileName: fileName }, (response) => {
             console.log(response);
             $("#AjaxOutput").append(response.detectedFile.message);
-            $("#AjaxOutput").append('<a href="' + window.location.href + 'feeds/' + response.detectedFile.fileName + '" target="_blank" class="downloadButton" title="' + response.detectedFile.fileName + '" >Download</a>');
+            this.addDownloadFileButton(response.detectedFile.fileName);
             $("#AjaxOutput").append('<br/>');
             this.proceedFile(response.detectedFile.fileName, response.detectedFile.fileType);
         });
@@ -132,7 +135,7 @@ class FeedManager {
         this.dynamicAjax('/convert_json_file', { fileName: fileName }, (response) => {
             console.log(response);
             $("#AjaxOutput").append(response.detectedFile.message);
-            $("#AjaxOutput").append('<a href="' + window.location.href + 'feeds/' + response.detectedFile.fileName + '" target="_blank" class="downloadButton" title="' + response.detectedFile.fileName + '" >Download</a>');
+            this.addDownloadFileButton(response.detectedFile.fileName);
             $("#AjaxOutput").append('<br/>');
             this.proceedFile(response.detectedFile.fileName, response.detectedFile.fileType);
         });
@@ -142,7 +145,6 @@ class FeedManager {
         this.dynamicAjax('/validate_file', { fileName: fileName }, (response) => {
             console.log(response);
             $("#AjaxOutput").append(response.detectedFile.message);
-            // $("#AjaxOutput").append('<a href="path_to_file" class="downloadButton" title="' + response.detectedFile.fileName + '" download="' + window.location.href + 'feeds/' + response.detectedFile.fileName + '">Download</a>');
             $("#AjaxOutput").append('<br/>');
             new FeedAnalysis(response.detectedFile.validatedElements);
             new PreviewItems(maxSamples, response.detectedFile.validatedElements);

@@ -22,6 +22,10 @@ const getXMLHeadersFromFile = require('../modules/getHeaderFromXML');
 const convertBigXMLToCSV = require('../modules/convertBigXMLToCSV');
 const detectXMLNodes = require('../modules/detectXMLNodes');
 
+String.prototype.removeDelimiter = function() {
+    return this.replace(/\"/g, "").replace(/\'/g, "");
+};
+
 router.get('/', (req, res) => {
     var io = req.app.get('socketio');
     io.on('connection', function(socket) {
@@ -202,9 +206,7 @@ router.post('/convert_json_file', (req, res) => {
         res.json({ detectedFile });
     });
 });
-String.prototype.removeDelimiter = function() {
-    return this.replace(/\"/g, "").replace(/\'/g, "");
-};
+
 router.post('/validate_file', (req, res) => {
     console.log("=========================validate_file=================")
     dest = "" + path.dirname(__dirname) + '/feeds/';
@@ -241,11 +243,12 @@ function deleteAllFilesFromFeeds() {
     let directory = path.dirname(__dirname) + '/feeds/';
     fs.readdir(directory, (err, files) => {
         if (err) throw err;
-
-        for (const file of files) {
-            fs.unlink(path.join(directory, file), err => {
-                if (err) throw err;
-            });
+        if (files.length > 1) {
+            for (const file of files) {
+                fs.unlink(path.join(directory, file), err => {
+                    if (err) throw err;
+                });
+            }
         }
     });
 }

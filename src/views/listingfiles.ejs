@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include ('metaSection') %>
+        <style>
+            #files {
+                font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+            }
+            
+            #files td,
+            #customers th {
+                border: 1px solid #ddd;
+                padding: 8px;
+            }
+            
+            #files td {
+                text-align: left;
+            }
+            
+            #files tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+            
+            #files tr:hover {
+                background-color: #ddd;
+            }
+            
+            #files th {
+                padding-top: 12px;
+                padding-bottom: 12px;
+                text-align: left;
+                background-color: rgba(40, 158, 162, 1);
+                color: white;
+            }
+        </style>
+</head>
+
+<body>
+    <%- include ('header') %>
+        <table id="files">
+            <tr>
+                <th>Filename</th>
+                <th>Size</th>
+                <th>Download</th>
+                <th>&nbsp;</th>
+            </tr>
+
+            <% for (var i = 0; i < feedList.length; i++) { %>
+                <tr>
+                    <td>
+                        <%= feedList[i].file %>
+                    </td>
+                    <td>
+                        <%= feedList[i].size %>
+                    </td>
+                    <td>
+                        <a href="/files/<%=feedList[i].file %>">Download</a>
+                    </td>
+                    <td>
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </td>
+                </tr>
+                <% } %>
+        </table>
+
+</body>
+
+</html>
