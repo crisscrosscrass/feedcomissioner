@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 const path = require('path');
-const feedsFolder = './feeds/';
+const feedsFolder = path.dirname(__dirname) + '/feeds/';
 
 router.get('/', (req, res) => {
     let feedList = [];
@@ -19,10 +19,10 @@ router.get('/:filename', (req, res) => {
         feedList.push({ file: file, size: getFilesizeInBytes(file) })
             // console.log(file, getFilesizeInBytes(file));
     });
-    console.log(feedList);
+    // console.log(feedList);
     console.log("your requested: ", req.params.filename);
     // res.render('listingFiles', { text: "All stored Files", feedList }, );
-    console.log(path.dirname(__dirname) + '/feeds/' + req.params.filename);
+    // console.log(path.dirname(__dirname) + '/feeds/' + req.params.filename);
     // mimeType = "application/force-download"
     // res.setHeader('content-type', mimeType);
     // res.sendFile(path.dirname(__dirname) + '/feeds/' + req.params.filename, err => console.log(err));
