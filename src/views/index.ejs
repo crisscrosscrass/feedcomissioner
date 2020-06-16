@@ -7,6 +7,13 @@
 
 <body>
     <%- include ('header') %>
+        <div id="navi">
+            <ul>
+                <li><a class="active" href=".">Validate</a></li>
+                <li><a href="/splitter">File Splitter</a></li>
+                <li><a href="/files">Stored Files</a></li>
+            </ul>
+        </div>
         <div id="myModal" class="itemModal">
             <div id="topMenu">
                 <span id="dimensions">Dimensions</span>
@@ -39,9 +46,6 @@
                             });
                             $('#clearFiles').click(function() {
                                 new FeedManager(true);
-                            });
-                            $('#tools').click(function() {
-                                new ToolsManager();
                             });
                         });
                         $(document).ajaxStart(function() {

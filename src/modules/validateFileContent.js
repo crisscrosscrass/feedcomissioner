@@ -42,11 +42,13 @@ async function validateFileConent(file, delimiter, validatedElements) {
                     } else {
                         validatedElements.FEEDTABLE.emptyCellsContent[index] += 1;
                     }
-                    for (var prop in validatedElements) {
+                    if (lineCounter < 100000) {
+                        for (var prop in validatedElements) {
 
-                        if (validatedElements[prop].found && index == validatedElements[prop].columnIndex &&
-                            (prop == 'SKU' || prop == 'IMAGE URL' || prop == 'DEEPLINK URL')) {
-                            validatedElements[prop].arrayOfValues.push(value.trim());
+                            if (validatedElements[prop].found && index == validatedElements[prop].columnIndex &&
+                                (prop == 'SKU' || prop == 'IMAGE URL' || prop == 'DEEPLINK URL')) {
+                                validatedElements[prop].arrayOfValues.push(value.trim());
+                            }
                         }
                     }
                     // console.log('%d: %s', index, value);

@@ -4,6 +4,36 @@ h1 {
     padding: 0;
 }
 
+#navi ul {
+    list-style-type: none;
+    font-family: "Raleway";
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #1e797d;
+}
+
+#navi li {
+    float: left;
+}
+
+#navi li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+#navi li a:hover:not(.active) {
+    background-color: #0e3638;
+}
+
+#navi .active {
+    background-color: white;
+    color: black;
+}
+
 #MappingSetting {
     position: fixed;
     top: 20px;
@@ -64,19 +94,6 @@ h1 {
     /* Fallback color */
     background-color: rgba(0, 0, 0, 0.9);
     /* Black w/ opacity */
-}
-
-#filesMenu,
-#splitterMenu {
-    position: relative;
-    margin: 2%;
-    padding: 1%;
-    z-index: 2;
-    border: 1px solid white;
-}
-
-input[type="text"]#splitterMenu::-webkit-input-placeholder {
-    color: black;
 }
 
 .header {
@@ -359,6 +376,29 @@ table#TableWindow td.data {
 #analyzeValidate button {
     min-width: 530px;
     font-family: Raleway;
+}
+
+.upload-button {
+    position: relative;
+    height: 30px;
+    background: rgb(240, 240, 240);
+    box-shadow: 0px 3px 5px grey;
+    width: 150px;
+    text-align: center;
+    font-family: "Raleway";
+    font-size: 22px;
+    color: black;
+    margin: 0px !important;
+}
+
+.upload-button input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 30px;
+    opacity: 0;
 }
 
 #validateButtonFeedAnalysis {

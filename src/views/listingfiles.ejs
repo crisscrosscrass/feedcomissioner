@@ -7,7 +7,9 @@
             #files {
                 font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
                 border-collapse: collapse;
-                width: 100%;
+                min-width: 50%;
+                margin: 2%;
+                padding: 0;
             }
             
             #files td,
@@ -35,36 +37,48 @@
                 background-color: rgba(40, 158, 162, 1);
                 color: white;
             }
+            
+            #fileList {
+                position: relative;
+                margin-left: 3%;
+                width: 95%;
+                z-index: 2;
+            }
         </style>
 </head>
 
 <body>
     <%- include ('header') %>
-        <table id="files">
-            <tr>
-                <th>Filename</th>
-                <th>Size</th>
-                <th>Download</th>
-                <th>&nbsp;</th>
-            </tr>
-
-            <% for (var i = 0; i < feedList.length; i++) { %>
+        <div id="navi">
+            <ul>
+                <li><a href=".">Validate</a></li>
+                <li><a href="/splitter">File Splitter</a></li>
+                <li><a class="active" href="/files">Stored Files</a></li>
+            </ul>
+        </div>
+        <div id="fileList">
+            <table id="files">
                 <tr>
-                    <td>
-                        <%= feedList[i].file %>
-                    </td>
-                    <td>
-                        <%= feedList[i].size %>
-                    </td>
-                    <td>
-                        <a href="/files/<%=feedList[i].file %>">Download</a>
-                    </td>
-                    <td>
-                        <span class="glyphicon glyphicon-trash"></span>
-                    </td>
+                    <th>Filename</th>
+                    <th>Size</th>
+                    <th>Download</th>
                 </tr>
-                <% } %>
-        </table>
+
+                <% for (var i = 0; i < feedList.length; i++) { %>
+                    <tr>
+                        <td>
+                            <%= feedList[i].file %>
+                        </td>
+                        <td>
+                            <%= feedList[i].size %>
+                        </td>
+                        <td>
+                            <a href="/files/<%=feedList[i].file %>">Download</a>
+                        </td>
+                    </tr>
+                    <% } %>
+            </table>
+        </div>
 
 </body>
 

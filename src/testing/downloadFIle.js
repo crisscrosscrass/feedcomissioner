@@ -1,29 +1,19 @@
-var axios = require('axios')
 var fs = require('fs')
 const path = require('path')
+const downloadViaStream = require('../modules/downloadViaStream');
+const createFileSplit = require('../modules/fileSplit');
+dest = "" + path.dirname(__dirname) + '\\feeds\\';
 
-axios({
-        method: 'get',
-        url: 'ftp://ftp-10157-147765031:45dc3f77@ftp.semtrack.de/147765031.10157.csv',
-        responseType: 'stream',
-        timeout: 1
-    })
-    .then(function(response) {
-        const totalLength = response.data.headers['content-length']
-        let headerLine = response.data.headers['content-disposition']
-        let startFileNameIndex = headerLine.indexOf('"') + 1
-        let endFileNameIndex = headerLine.lastIndexOf('"')
-        let filename = headerLine.substring(startFileNameIndex, endFileNameIndex)
-        const dest = "" + path.dirname(__dirname) + '\\feeds\\';
-        response.data.on('data', (chunk) => {
-            console.log(chunk.length, totalLength)
-        })
-        response.data.pipe(fs.createWriteStream(dest + filename))
-    })
-    .catch(function(error) {
-        if (error.code == 'ETIMEDOUT') {
-            console.log("TIMED OUT!");
-        } else {
-            console.log(error);
-        }
-    });
+async function downloadViaStreamExample() {
+    console.log("==========downlaod via Stream split file============");
+    var batch = 1;
+    url = "ftp://ShopAlikeFR151:ShopAlikeFR_151@aftp.linksynergy.com/44096/44096_3612151_167763915_cmp.xml.gz";
+    try {
+        var downloadedFile = await downloadViaStream(url, dest, batch);
+        console.log(downloadedFile)
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+downloadViaStreamExample()

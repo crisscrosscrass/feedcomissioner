@@ -3,16 +3,22 @@ const router = express.Router();
 const fs = require('fs');
 const path = require('path');
 const feedsFolder = path.dirname(__dirname) + '/feeds/';
+const checkfolder = require('../modules/foldercheck');
 
 router.get('/', (req, res) => {
-    let feedList = [];
-    fs.readdirSync(feedsFolder).forEach(file => {
-        feedList.push({ file: file, size: getFilesizeInBytes(file) })
-            // console.log(file, getFilesizeInBytes(file));
+    checkfolder(path.dirname(__dirname) + '/feeds/', (exist) => {
+        let feedList = [];
+        if (exist) {
+            fs.readdirSync(feedsFolder).forEach(file => {
+                feedList.push({ file: file, size: getFilesizeInBytes(file) })
+                    // console.log(file, getFilesizeInBytes(file));
+            });
+            res.render('listingfiles', { text: "All stored Files", feedList }, );
+        } else {
+            res.render('listingfiles', { text: "All stored Files", feedList }, );
+        }
     });
-    console.log(feedList);
-    res.render('listingfiles', { text: "All stored Files", feedList }, );
-})
+});
 router.get('/:filename', (req, res) => {
     let feedList = [];
     fs.readdirSync(feedsFolder).forEach(file => {

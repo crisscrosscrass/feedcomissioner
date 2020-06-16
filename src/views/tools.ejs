@@ -3,16 +3,23 @@
     <div id="filesMenu">
         <h1>Saved Files</h1>
         <button class="btn btn-lg btn-primary btn-block" id="showAllFiles" type="button">Show</button><br>
+        <button class="btn btn-lg btn-primary btn-block" id="clearFiles" type="button">Clear</button>
     </div>
     <div id="splitterMenu">
         <h1>File Splitter</h1>
         <form class="form-signin" role="form">
             <input type="number" value="1"> Number of batches<br>
-            <h6>via Download</h6>
-            <input type="text" name="urlFile" placeholder="URL...">
-            <button class="btn btn-lg btn-primary btn-block" id="createSplitFile" type="button">Create</button><br>
-            <h6>via Upload</h6>
-            <input type="file" name="fileToSplit">
+            <div class="toolsContainter">
+                <h6>via Download</h6>
+                <input type="text" name="urlFile" placeholder="URL...">
+                <button class="btn btn-lg btn-primary btn-block" id="createSplitFile" type="button">Create</button><br>
+            </div>
+            <div class="toolsContainter">
+                <h6>via Upload</h6>
+                <div class="upload-button">
+                    <input type="file" name="fileToSplit">Choose File
+                </div>
+            </div>
         </form>
     </div>
     <!--div id="splitterMenu">

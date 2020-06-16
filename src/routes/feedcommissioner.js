@@ -71,6 +71,7 @@ router.post('/upload_file', (req, res) => {
     checkfolder(path.dirname(__dirname) + '/feeds/', (exist) => {
         if (exist) {
             var form = new formidable.IncomingForm();
+            form.maxFileSize = 2000000000;
             form.parse(req);
             form.on('fileBegin', function(name, file) {
                 file.path = path.dirname(__dirname) + '/feeds/' + file.name;
