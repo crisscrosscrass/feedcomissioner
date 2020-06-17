@@ -122,7 +122,9 @@
                             <a href="/files/<%=feedList[i].file %>">Download</a>
                         </td>
                         <td>
-                            <a style="font-size: 25px;" href="/<%=feedList[i].file %>"> &#9852;</a>
+                            <form action="/<%=feedList[i].file %>" method="post">
+                                <input type="submit" value="Launch">
+                            </form>
                         </td>
                         <td>
                             <a href="/files/delete/<%=feedList[i].file %>">Delete</a>

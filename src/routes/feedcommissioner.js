@@ -113,7 +113,7 @@ router.post('/detect_file_type', (req, res) => {
         detectedFile.message = "Analyzing CSV Data"
         res.json({ detectedFile });
     } else if (fileType == ".xml" || fileType == ".gz" || fileType == ".zip" || fileType == ".json") {
-        detectedFile.message = "Detect File Type"
+        detectedFile.message = "detection from stored files"
         res.json({ detectedFile });
     } else {
         console.log("read firstline to estimate filetype");
@@ -243,10 +243,13 @@ router.post('/cleaning_feeds', (req, res) => {
     res.json({ detectedFile });
 });
 
-router.get('/:filename', (req, res) => {
-    console.log("=========================validate file from storage=================")
-    res.render('index', { text: "Used to validate big Data Feeds" });
 
+
+router.post('/:filename', (req, res) => {
+    console.log("you have created a post request")
+        // res.render('index', { text: "Used to validate big Data Feeds" });
+    console.log(req.params.filename);
+    res.render('index', { text: "Used to validate big Data Feeds" });
 })
 
 function deleteAllFilesFromFeeds() {
