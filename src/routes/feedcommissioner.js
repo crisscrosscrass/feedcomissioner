@@ -112,6 +112,9 @@ router.post('/detect_file_type', (req, res) => {
     if (fileType == ".csv" || fileType == ".txt") {
         detectedFile.message = "Analyzing CSV Data"
         res.json({ detectedFile });
+    } else if (fileType == ".xml" || fileType == ".gz" || fileType == ".zip" || fileType == ".json") {
+        detectedFile.message = "Detect File Type"
+        res.json({ detectedFile });
     } else {
         console.log("read firstline to estimate filetype");
         detectedFile.fileType = ".txt"
@@ -239,6 +242,12 @@ router.post('/cleaning_feeds', (req, res) => {
     detectedFile = createResponseObject(`Your Online Folder is empty now`, "", true, "");
     res.json({ detectedFile });
 });
+
+router.get('/:filename', (req, res) => {
+    console.log("=========================validate file from storage=================")
+    res.render('index', { text: "Used to validate big Data Feeds" });
+
+})
 
 function deleteAllFilesFromFeeds() {
     let directory = path.dirname(__dirname) + '/feeds/';

@@ -10,6 +10,9 @@ async function createFileSplit(dest, fileName, startAt, maxLimit) {
 
     return new Promise((res, rej) => {
         var detectedEnconding = encoding.detect(fileBuffer);
+        if (detectedEnconding == "UTF32") {
+            detectedEnconding = "UTF8"
+        }
         fs.writeFile(dest + outputFile, '', function(err) {
             if (err) return console.log(err);
             console.log("done");

@@ -48,6 +48,13 @@
                                 new FeedManager(true);
                             });
                         });
+                        $('document').ready(function() {
+                            if (/\.csv|\.xml|\.zip|\.gz|\.txt|\.json/.test(window.location.href)) {
+                                console.log(window.location.href.replace(/.*(8060\/\s*)(?!.*8060\/)/, ""));
+                                let fileName = window.location.href.replace(/.*(8060\/\s*)(?!.*8060\/)/, "");
+                                new FeedManager(false, false, true, fileName);
+                            }
+                        });
                         $(document).ajaxStart(function() {
                             $('#loading').show();
                         }).ajaxStop(function() {

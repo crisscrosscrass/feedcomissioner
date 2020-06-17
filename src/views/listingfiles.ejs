@@ -15,7 +15,6 @@
             #files td,
             #customers th {
                 border: 1px solid #ddd;
-                padding: 8px;
             }
             
             #files td {
@@ -44,6 +43,49 @@
                 width: 95%;
                 z-index: 2;
             }
+            
+            #uploadButton {
+                width: 150px;
+                text-align: center;
+                font-family: "Raleway";
+                font-size: 20px;
+                margin-left: 5%;
+                margin-top: 5%;
+                padding: 10px 20px 10px 20px;
+                color: #999;
+                box-shadow: 0px 3px 5px grey;
+                text-decoration: none;
+            }
+            
+            #uploadButton:hover {
+                background-color: #999;
+                color: white;
+            }
+            
+            a {
+                text-decoration: none;
+            }
+            
+            a:visited {
+                text-decoration: none;
+                color: blue;
+            }
+            
+            a:hover {
+                text-decoration: none;
+                color: blue;
+            }
+            
+            a:focus {
+                text-decoration: none;
+                color: yellow;
+            }
+            
+            a:hover,
+            a:active {
+                text-decoration: none;
+                color: black
+            }
         </style>
 </head>
 
@@ -56,12 +98,16 @@
                 <li><a class="active" href="/files">Stored Files</a></li>
             </ul>
         </div>
+        <br/><a href="/files/uploadfeed" id="uploadButton">Upload</a>
+        <progress max="100" value="<%= percent %>"></progress>
         <div id="fileList">
             <table id="files">
                 <tr>
                     <th>Filename</th>
                     <th>Size</th>
                     <th>Download</th>
+                    <th>Validate</th>
+                    <th>Delete</th>
                 </tr>
 
                 <% for (var i = 0; i < feedList.length; i++) { %>
@@ -74,6 +120,12 @@
                         </td>
                         <td>
                             <a href="/files/<%=feedList[i].file %>">Download</a>
+                        </td>
+                        <td>
+                            <a style="font-size: 25px;" href="/<%=feedList[i].file %>"> &#9852;</a>
+                        </td>
+                        <td>
+                            <a href="/files/delete/<%=feedList[i].file %>">Delete</a>
                         </td>
                     </tr>
                     <% } %>

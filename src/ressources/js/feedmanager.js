@@ -22,8 +22,12 @@ socket.on('progress', (data) => {
 
 var globalValidatedElements;
 class FeedManager {
-    constructor(cleaning = false, upload = false) {
-        cleaning ? this.cleanupFeeds() : upload ? this.uploadFile() : this.downloadFile();
+    constructor(cleaning = false, upload = false, skipDownload = false, fileName = "") {
+        if (!skipDownload) {
+            cleaning ? this.cleanupFeeds() : upload ? this.uploadFile() : this.downloadFile();
+        } else {
+            this.detectFileType(fileName);
+        }
     }
     dynamicAjax(urlServer, data, callback) {
         $.ajax({

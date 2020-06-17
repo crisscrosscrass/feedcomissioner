@@ -66,6 +66,7 @@ async function downloadFileViaStream(fileUrl, filePath, limit) {
                         resolve("split-" + filename);
                     });
             } else {
+
                 ftpURL = fileUrl.replace(/.*\/\//, "")
                 dest = "" + path.dirname(__dirname) + '/../feeds/';
 
@@ -76,14 +77,17 @@ async function downloadFileViaStream(fileUrl, filePath, limit) {
                 fileName = location.replace(/.*\//, "");
                 console.log(user, password, host, location, fileName);
 
+                //create empty file
+                fs.writeFile(filePath + "split-" + fileName, '', function(err) {
+                    if (err) return console.log(err);
+                });
+
                 var connectionProperties = {
                     host: host,
                     user: user,
                     password: password
                 };
-                fs.writeFile(filePath + "split-" + fileName, '', function(err) {
-                    if (err) return console.log(err);
-                });
+
                 c.on('ready', function() {
                     c.get(location, function(err, stream) {
                         if (err) throw err;

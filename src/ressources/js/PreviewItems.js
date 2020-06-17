@@ -182,7 +182,7 @@ class PreviewItems {
     appendParagraph(LI, content, itemDetails) {
         if (itemDetails != undefined) {
             var aParagraph = document.createElement("P");
-            aParagraph.innerHTML += content;
+            aParagraph.innerHTML += content + itemDetails;
             LI.appendChild(aParagraph);
         }
     }

@@ -14,3 +14,4 @@ RUN npm install
 COPY . .
 EXPOSE 8060
 CMD [ "node", "server.js" ]
+# CMD ["forever", "start", "server.js" ]

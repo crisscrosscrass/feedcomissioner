@@ -7,4 +7,5 @@ services:
     ports:
       - 8060:8060
     volumes:
-    - .:/feed-commissioner 
+    - .:/feed-commissioner
+    restart: always
