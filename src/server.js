@@ -16,6 +16,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
+app.use((err, req, res, next) => {
+    if (!err) return next();
+    return res.status(400).json({
+        status: 400,
+        error: 'OOps! Bad request',
+    });
+});
 app.post(function(req, res, next) {
     next();
 });

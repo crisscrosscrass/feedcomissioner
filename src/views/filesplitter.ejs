@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <%- include ('metaSection') %>
+    <%- include ('layout/metaSection') %>
         <style>
             #files {
                 font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
@@ -169,7 +169,7 @@
 </head>
 
 <body>
-    <%- include ('header') %>
+    <%- include ('layout/header') %>
         <div id="navi">
             <ul>
                 <li><a href=".">Validate</a></li>
@@ -211,28 +211,25 @@
             </form>
             <p id="AjaxOutput"></p>
             <div id="check"> </div>
-            <%- include ('loadingHexagon') %>
-                <p id="AjaxOutput"></p>
-                <div id="check"> </div>
-                <%- include ('loadingHexagon') %>
-                    <script>
-                        $(function() {
-                            $('#createSplitFileFromDownload').click(function() {
-                                new SplitterManager(true, false, false);
-                            });
-                            $("#file").change(function() {
-                                new SplitterManager(false, true, false);
-                            });
-                            $('#createSplitFileFromStored').click(function() {
-                                new SplitterManager(false, false, true);
-                            });
+            <%- include ('layout/loadingHexagon') %>
+                <script>
+                    $(function() {
+                        $('#createSplitFileFromDownload').click(function() {
+                            new SplitterManager(true, false, false);
                         });
-                        $(document).ajaxStart(function() {
-                            $('#loading').show();
-                        }).ajaxStop(function() {
-                            $('#loading').hide();
+                        $("#file").change(function() {
+                            new SplitterManager(false, true, false);
                         });
-                    </script>
+                        $('#createSplitFileFromStored').click(function() {
+                            new SplitterManager(false, false, true);
+                        });
+                    });
+                    $(document).ajaxStart(function() {
+                        $('#loading').show();
+                    }).ajaxStop(function() {
+                        $('#loading').hide();
+                    });
+                </script>
 </body>
 
 </html>

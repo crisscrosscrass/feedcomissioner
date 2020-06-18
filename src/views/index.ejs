@@ -2,11 +2,11 @@
 <html lang="en">
 
 <head>
-    <%- include ('metaSection') %>
+    <%- include ('layout/metaSection') %>
 </head>
 
 <body>
-    <%- include ('header') %>
+    <%- include ('layout/header') %>
         <div id="navi">
             <ul>
                 <li><a class="active" href=".">Validate</a></li>
@@ -27,15 +27,15 @@
             <div id="modalFullScreenClose"></div>
         </div>
 
-        <%- include ('menu') %>
+        <%- include ('layout/menu') %>
             <div id="MappingSetting" class="ui-widget-content">
                 <div id="MappingSelection"></div>
                 <div id="outputMapping"></div>
             </div>
-            <%- include ('tools') %>
+            <%- include ('layout/tools') %>
                 <p id="AjaxOutput"></p>
                 <div id="check"> </div>
-                <%- include ('loadingHexagon') %>
+                <%- include ('layout/loadingHexagon') %>
                     <script>
                         $(function() {
                             $('#downloadFile').click(function() {

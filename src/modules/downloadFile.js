@@ -13,7 +13,11 @@ const downloadFile = function(fileUrl, io, cb) {
         if (/http/.test(fileUrl)) {
             var r = request(fileUrl)
                 .on('response', function(res) {
+                    // console.log(res.headers)
                     let contentDisp = res.headers['content-disposition'];
+                    if (res.headers['content-encoding'] == 'gzip' && !/\.gz/.test(contentDisp)) {
+                        contentDisp = contentDisp + '.gz';
+                    }
                     total_bytes = parseInt(res.headers['content-length']);
                     if (contentDisp && /^attachment/i.test(contentDisp)) {
                         try {
@@ -29,6 +33,9 @@ const downloadFile = function(fileUrl, io, cb) {
                         filename = path.basename(url.parse(fileUrl).path);
                         if (!/\./.test(filename)) {
                             filename = 'unknown.' + filename;
+                        }
+                        if (res.headers['content-encoding'] == 'gzip' && !/\.gz/.test(filename)) {
+                            filename = filename + '.gz';
                         }
                     }
                     r.pipe(fs.createWriteStream(path.join(__dirname + '/../feeds/', filename)));

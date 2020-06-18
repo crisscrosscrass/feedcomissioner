@@ -182,7 +182,7 @@ class PreviewItems {
     appendParagraph(LI, content, itemDetails) {
         if (itemDetails != undefined) {
             var aParagraph = document.createElement("P");
-            aParagraph.innerHTML += content + itemDetails;
+            aParagraph.innerHTML += '<u>' + content + '</u>' + itemDetails;
             LI.appendChild(aParagraph);
         }
     }
@@ -205,6 +205,8 @@ class PreviewItems {
         var randomShippingCost = this.getItemDetails("SHIPPING COSTS", randomNumber);
         var randomDeliveryTime = this.getItemDetails("AVAILABILITY", randomNumber);
         var randomColor = this.getItemDetails("COLOR", randomNumber);
+        var randomMaterial = this.getItemDetails("MATERIAL", randomNumber);
+        var randomGender = this.getItemDetails("GENDER", randomNumber);
         var randomSKU = this.getItemDetails("SKU", randomNumber);
         var randomAuxImage = this.getItemDetails("AUX IMAGE URL 1", randomNumber);
         var randomDescription = this.getItemDetails("DESCRIPTION", randomNumber);
@@ -244,6 +246,8 @@ class PreviewItems {
         this.appendParagraph(LI, "ShippingCost: ", randomShippingCost);
         this.appendParagraph(LI, "Delivery Time: ", randomDeliveryTime);
         this.appendParagraph(LI, "Color: ", randomColor);
+        this.appendParagraph(LI, "Material: ", randomMaterial);
+        this.appendParagraph(LI, "Gender: ", randomGender);
         this.appendParagraph(LI, "SKU: ", randomSKU);
         return this.UL.appendChild(LI);
     }

@@ -227,7 +227,7 @@ router.post('/validate_file', (req, res) => {
         var syncMapping = await getSyncMapping(mappingFile);
         let validatedElements = await validateAllAttributesViaFeed(syncMapping, separator, headerValues);
         validatedElements = await validateFileConent(dest + fileName, separator, validatedElements)
-        detectedFile = createResponseObject("Analyze CSV File", fileType, true, fileName);
+        detectedFile = createResponseObject("Analyze CSV File : " + fileName, fileType, true, fileName);
         detectedFile.validatedElements = validatedElements
 
         return res.json({ detectedFile });

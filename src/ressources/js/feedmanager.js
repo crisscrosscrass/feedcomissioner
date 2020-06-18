@@ -41,7 +41,7 @@ class FeedManager {
                 // will fire when timeout is reached
                 console.log('connection to the server failed!');
             },
-            timeout: 240000
+            timeout: 8400000
         });
     }
     showInfo(msg) {
