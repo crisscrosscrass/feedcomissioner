@@ -27,7 +27,7 @@ async function convertBigXMLToCSV(dest, fileName, header, node) {
             counter++;
         });
         xml.on('end', function() {
-            console.log("END OF XML STREAMING")
+            // console.log("END OF XML STREAMING")
             writer.write('END');
         });
         xml.on('error', function(err) {

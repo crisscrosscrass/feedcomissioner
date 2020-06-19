@@ -116,12 +116,16 @@ const downloadFile = function(fileUrl, io, cb) {
             }
         } else {
             data = {
-                message: percentage + "% <br/> " + received + " bytes out of " + total + " bytes.",
+                message: roundDigits(percentage) + "% <br/> " + received + " bytes out of " + total + " bytes.",
                 handle: "loaded"
             }
         }
         io.sockets.emit('progress', data);
         // console.log(percentage + "% | " + received + " bytes out of " + total + " bytes.");
+    }
+
+    function roundDigits(percentNumber) {
+        return +(Math.round(percentNumber + "e+2") + "e-2");
     }
 }
 

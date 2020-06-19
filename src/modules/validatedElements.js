@@ -94,9 +94,6 @@ function getColumnIndexViaHeaderName(tableHeaderInfo, searchedColumn) {
 async function validateAllAttributesViaFeed(syncMapping, headerFile, headerValues) {
     return new Promise((resolve, rejected) => {
         let tableHeaderInfo = getTableHeaderNamesAndPositions(headerValues);
-
-        console.log('headerValues before getElements:');
-        console.log(headerValues, headerValues.length);
         // get found = true/false, columnName, columnIndex for each
         let validatedElements = getValidatedElements(syncMapping, tableHeaderInfo, headerValues);
         //console.log('headerValues after getElements:');

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include ('layout/metaSection') %>
+        <style>
+            #output {
+                max-width: 95%;
+                overflow: auto;
+            }
+        </style>
+</head>
+
+<body>
+    <%- include ('layout/header') %>
+        <div id="navi">
+            <ul>
+                <li><a href=".">Validate</a></li>
+                <li><a href="/splitter">File Splitter</a></li>
+                <li><a href="/files">Stored Files</a></li>
+                <li><a class="active" href="/logs">Logs</a></li>
+            </ul>
+        </div>
+        <pre id="output"></pre>
+        <script>
+            var output = document.getElementById('output');
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'data/file.log', true);
+            xhr.send();
+
+            setInterval(function() {
+                output.textContent = xhr.responseText;
+            }, 1000);
+        </script>
+
+</body>
+
+</html>

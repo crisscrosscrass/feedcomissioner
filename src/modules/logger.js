@@ -1,21 +1,56 @@
-const path = require("path");
-const bunyan = require("bunyan");
-const Mask = require("./mask");
-// favour using env variables to provide your code with external configs
-// it makes it a lot simpler when you want to change the configs
-const level = process.env.NODE_LOGGING_LEVEL || "info";
+const log4js = require("log4js");
 
-const log = bunyan.createLogger({
-    name: "feedcommissioner",
-    streams: [{
-            level,
-            stream: process.stdout
-        },
-        {
-            level,
-            path: path.resolve(__dirname, "..", "..", "logs.json")
-        }
-    ]
+log4js.addLayout('json', function(config) {
+    return function(logEvent) { return JSON.stringify(logEvent) + config.separator; }
 });
 
-module.exports = new Mask(log);
+log4js.configure({
+    appenders: {
+        console: {
+            type: "console",
+            layout: {
+                type: 'pattern',
+                pattern: '%d{yyyy/MM/dd-hh:mm:ss} %[%f{depth}:%l:%o%] %[%n%p%] %m',
+                tokens: {
+                    message: (logEvent) => { logEvent }
+                }
+            }
+        },
+        file: {
+            type: "file",
+            layout: {
+                type: 'pattern',
+                pattern: '%d{yyyy/MM/dd-hh:mm:ss}|%f{depth}:%l:%o|%p|%m',
+                tokens: {
+                    message: (logEvent) => { logEvent }
+                }
+            },
+            filename: "ressources/data/file.log",
+            maxLogSize: 10485760,
+            backups: 3,
+        }
+    },
+    categories: { default: { appenders: ["console", "file"], level: "debug", enableCallStack: true } }
+});
+
+const logger = log4js.getLogger("file");
+
+module.exports = logger;
+
+//old settings
+// log4js.configure({
+//     appenders: {
+//         console: {
+//             type: "console",
+//             layout: {
+//                 type: 'pattern',
+//                 pattern: '%d{yyyy/MM/dd-hh:mm:ss} %[%f{depth}:%l:%o%] %[%n%p%] %m',
+//                 tokens: {
+//                     message: (logEvent) => { logEvent }
+//                 }
+//             }
+//         },
+//         file: { type: "file", layout: { type: 'json', separator: ',' }, filename: "ressources/data/log.json", maxLogSize: 10485760, backups: 3, }
+//     },
+//     categories: { default: { appenders: ["console", "file"], level: "debug", enableCallStack: true } }
+// });

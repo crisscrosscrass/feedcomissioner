@@ -30,11 +30,14 @@
             }
             
             #files th {
-                padding-top: 12px;
-                padding-bottom: 12px;
+                padding: 12px;
                 text-align: left;
                 background-color: rgba(40, 158, 162, 1);
                 color: white;
+            }
+            
+            #files td {
+                padding: 0px 12px 0px 12px;
             }
             
             #fileList {
@@ -96,6 +99,7 @@
                 <li><a href=".">Validate</a></li>
                 <li><a href="/splitter">File Splitter</a></li>
                 <li><a class="active" href="/files">Stored Files</a></li>
+                <li><a href="/logs">Logs</a></li>
             </ul>
         </div>
         <br/><a href="/files/uploadfeed" id="uploadButton">Upload</a>
@@ -104,6 +108,7 @@
             <table id="files">
                 <tr>
                     <th>Filename</th>
+                    <th>Created</th>
                     <th>Size</th>
                     <th>Download</th>
                     <th>Validate</th>
@@ -114,6 +119,10 @@
                     <tr>
                         <td>
                             <%= feedList[i].file %>
+                        </td>
+                        <td>
+                            <%= feedList[i].date.toUTCString(); %>
+
                         </td>
                         <td>
                             <%= feedList[i].size %>

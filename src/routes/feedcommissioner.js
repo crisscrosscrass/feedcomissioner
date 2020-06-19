@@ -5,6 +5,7 @@ var https = require('https');
 const formidable = require('formidable');
 const fs = require('fs');
 const path = require('path');
+const logger = require("../modules/logger");
 const decompress = require('decompress');
 const gunzip = require('gunzip-file');
 const convert = require('xml-js');
@@ -29,10 +30,10 @@ String.prototype.removeDelimiter = function() {
 router.get('/', (req, res) => {
     var io = req.app.get('socketio');
     io.on('connection', function(socket) {
-        console.log("Made Socket connection!", socket.id);
+        // logger.info("Made Socket connection!", socket.id);
 
         socket.on('progress', (data) => {
-            console.log(data)
+            logger.mark(data)
             io.sockets.emit('progress', data)
         })
     })
@@ -40,13 +41,13 @@ router.get('/', (req, res) => {
 })
 
 router.post('/download_file', (req, res) => {
-    console.log("=========================download_file=================")
+    // logger.info("=========================download_file=================")
     const io = req.app.get('socketio');
     checkfolder(path.dirname(__dirname) + '/feeds/', (exist) => {
         if (exist) {
             if (req.body.url.length > 5) {
                 downloadFile('' + req.body.url + '', io, function(fileName) {
-                    console.log('done with loading', fileName);
+                    // logger.info('done with loading', fileName);
                     if (!fs.statSync(path.dirname(__dirname) + '/feeds/' + fileName).size < 1) {
                         detectedFile = createResponseObject(`Your file: ${fileName} has been loaded.`, path.extname('./feeds/' + fileName), true, fileName);
                         res.json({ detectedFile });
@@ -67,7 +68,7 @@ router.post('/download_file', (req, res) => {
 });
 
 router.post('/upload_file', (req, res) => {
-    console.log("=========================upload_file=================")
+    logger.info("=========================upload_file=================")
     checkfolder(path.dirname(__dirname) + '/feeds/', (exist) => {
         if (exist) {
             var form = new formidable.IncomingForm();
@@ -77,14 +78,14 @@ router.post('/upload_file', (req, res) => {
                 file.path = path.dirname(__dirname) + '/feeds/' + file.name;
             });
             form.on('data', function(res) {
-                //console.log(res);
+                //logger.info(res);
                 received_bytes += res.length;
 
                 showProgress(received_bytes, total_bytes);
-                // console.log(res.headers['content-length']);
+                // logger.info(res.headers['content-length']);
             })
             form.on('file', function(name, file) {
-                console.log('Uploaded ' + file.name);
+                // logger.info('Uploaded ' + file.name);
                 detectedFile = createResponseObject(`File ${file.name} has been uploaded`, path.extname('./feeds/' + file.name), true, file.name);
                 res.json({ detectedFile });
             });
@@ -104,7 +105,7 @@ function createResponseObject(message = "", fileType = "", proceed = true, fileN
 }
 
 router.post('/detect_file_type', (req, res) => {
-    console.log("=========================detect_file_type=================")
+    // logger.info("=========================detect_file_type=================")
     detectedFile = createResponseObject("We need to estimate File Structure", path.extname('./feeds/' + req.body.fileName), true, req.body.fileName);
     filePath = "" + path.dirname(__dirname) + '/feeds/';
     fileName = req.body.fileName;
@@ -116,7 +117,7 @@ router.post('/detect_file_type', (req, res) => {
         detectedFile.message = "detection from stored files"
         res.json({ detectedFile });
     } else {
-        console.log("read firstline to estimate filetype");
+        logger.info("read firstline to estimate filetype");
         detectedFile.fileType = ".txt"
         res.json({ detectedFile });
     }
@@ -124,65 +125,72 @@ router.post('/detect_file_type', (req, res) => {
 });
 
 router.post('/decrompress_file', (req, res) => {
-    console.log("=========================decrompress_file=================")
+    // logger.info("=========================decrompress_file=================")
     detectedFile = createResponseObject("decrompress_file", path.extname('./feeds/' + req.body.fileName), true, req.body.fileName);
     filePath = "" + path.dirname(__dirname) + '/feeds/';
     fileName = req.body.fileName;
     fileType = path.extname('./feeds/' + req.body.fileName);
-    console.log(req.body);
+    logger.info(req.body);
     if (fileType == ".gz") {
         newFileName = req.body.fileName.slice(0, -3);
         feedsLocation = filePath + newFileName;
-        console.log("we need to decompress gz", req.body.fileName);
-        gunzip(filePath + fileName, feedsLocation, () => {
-            console.log('gunzip done!');
-            fileType = path.extname('./feeds/' + newFileName);
-            detectedFile = createResponseObject("Decompress GZ File", fileType, true, newFileName)
-            console.log(detectedFile);
-            res.json({ detectedFile });
+        logger.info("we need to decompress gz", req.body.fileName);
+        try {
+            gunzip(filePath + fileName, feedsLocation, () => {
+                logger.info('gunzip done!');
+                fileType = path.extname('./feeds/' + newFileName);
+                detectedFile = createResponseObject("Decompress GZ File", fileType, true, newFileName)
+                logger.info(detectedFile);
+                res.json({ detectedFile });
 
-        })
+            })
+        } catch (error) {
+            detectedFile = createResponseObject("Can't decomporess the File", fileType, false, req.body.fileName)
+            logger.info(detectedFile);
+            res.json({ detectedFile });
+        }
+
     } else if (fileType == ".zip") {
         decompress(filePath + fileName, path.dirname(__dirname) + '/feeds/').then(files => {
             let newFileName = req.body.fileName.slice(0, -4);
             fileType = path.extname('./feeds/' + newFileName);
             detectedFile = createResponseObject("Unpacked Zip File", fileType, true, newFileName)
-            console.log("converted into", newFileName);
+            logger.info("converted into", newFileName);
             res.json({ detectedFile });
-        }).catch(error => console.log(error));
+        }).catch(error => logger.info(error));
     } else {
-        console.log("read firstline to estimate filetype");
+        logger.info("read firstline to estimate filetype");
         res.json({ detectedFile });
     }
 
 });
 
 router.post('/convert_xml_file', (req, res) => {
-    console.log("=========================convert_xml_file=================")
+    // logger.info("=========================convert_xml_file=================")
     dest = "" + path.dirname(__dirname) + '/feeds/';
     fileName = req.body.fileName
     fileType = path.extname('./feeds/' + req.body.fileName);
     detectedFile = createResponseObject("Convert XML to CSV", fileType, true, fileName);
     try {
         convertXmlToJson(dest, fileName, function(fileName) {
-            console.log('done XML > JSON, new file: ', fileName);
+            // logger.info('done XML > JSON, new file: ', fileName);
             detectedFile.fileName = fileName;
             detectedFile.fileType = path.extname('./feeds/' + fileName);
             detectedFile.message = 'Converted XML to JSON';
-            console.log(detectedFile);
+            // logger.info(detectedFile);
             res.json({ detectedFile });
         });
     } catch (error) {
         if (error.code == "ERR_STRING_TOO_LONG") {
-            console.log("Feed too big");
+            logger.info("Feed too big");
             async function bigXMLToCSV() {
                 elementNode = await detectXMLNodes(dest, fileName);
-                console.log(elementNode)
+                logger.info(elementNode)
                 if (elementNode != "unknown") {
                     var header = await getXMLHeadersFromFile(dest + fileName);
                     var file = await convertBigXMLToCSV(dest, fileName, header, elementNode);
                     detectedFile = createResponseObject("Convert XML to <strong>smaller CSV File </strong> due size and time", path.extname('./feeds/' + file), true, file)
-                    console.log("converted into", file);
+                    logger.info("converted into", file);
                     res.json({ detectedFile });
                 } else {
                     detectedFile = createResponseObject(`Can't find Item nodes in ${fileName} , unable to process from here`, "", false, "");
@@ -195,29 +203,30 @@ router.post('/convert_xml_file', (req, res) => {
 });
 
 router.post('/convert_json_file', (req, res) => {
-    console.log("=========================convert_json_file=================")
+    // logger.info("=========================convert_json_file=================")
     dest = "" + path.dirname(__dirname) + '/feeds/';
     fileName = req.body.fileName
     fileType = path.extname('./feeds/' + req.body.fileName);
     detectedFile = createResponseObject("Convert JSON to CSV", fileType, true, fileName);
 
     convertJsonToCsv(dest, fileName, function(fileName, location) {
-        console.log('done JSON > CSV, new file: ', fileName);
+        // logger.info('done JSON > CSV, new file: ', fileName);
         detectedFile.fileName = fileName;
         detectedFile.fileType = path.extname('./feeds/' + fileName);
         detectedFile.message = "Converted JSON to CSV using path: " + location + '';
-        console.log(detectedFile);
+        // logger.info(detectedFile);
         res.json({ detectedFile });
     });
 });
 
 router.post('/validate_file', (req, res) => {
-    console.log("=========================validate_file=================")
+    // logger.info("=========================validate_file=================")
     dest = "" + path.dirname(__dirname) + '/feeds/';
     fileName = req.body.fileName;
 
     async function readAndValidate() {
         var headerValues = await getHeadersFromCSV(dest + fileName);
+        logger.debug("First Line of the Feed: ", headerValues);
         headerValues = headerValues.removeDelimiter();
         var separator = await getTopSeparator(headerValues);
         headerValues = headerValues.toLocaleLowerCase().split(separator.sign)
@@ -227,6 +236,7 @@ router.post('/validate_file', (req, res) => {
         var syncMapping = await getSyncMapping(mappingFile);
         let validatedElements = await validateAllAttributesViaFeed(syncMapping, separator, headerValues);
         validatedElements = await validateFileConent(dest + fileName, separator, validatedElements)
+        logger.info("Filename: ", fileName, "Amount of Products: ", validatedElements.FEEDTABLE.products, "Amount of Attributes: ", validatedElements.FEEDTABLE.attributes);
         detectedFile = createResponseObject("Analyze CSV File : " + fileName, fileType, true, fileName);
         detectedFile.validatedElements = validatedElements
 
@@ -237,7 +247,7 @@ router.post('/validate_file', (req, res) => {
 });
 
 router.post('/cleaning_feeds', (req, res) => {
-    console.log("=========================cleaning all files from folder feeds=================")
+    logger.info("=========================cleaning all files from folder feeds=================")
     deleteAllFilesFromFeeds();
     detectedFile = createResponseObject(`Your Online Folder is empty now`, "", true, "");
     res.json({ detectedFile });
@@ -246,9 +256,8 @@ router.post('/cleaning_feeds', (req, res) => {
 
 
 router.post('/:filename', (req, res) => {
-    console.log("you have created a post request")
-        // res.render('index', { text: "Used to validate big Data Feeds" });
-    console.log(req.params.filename);
+    // logger.info("you have created a post request")
+    logger.info(req.params.filename);
     res.render('index', { text: "Used to validate big Data Feeds" });
 })
 

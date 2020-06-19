@@ -58,7 +58,6 @@ async function validateFileConent(file, delimiter, validatedElements) {
                 }
 
             }
-            //console.log(lineCounter);
             lineCounter++;
         });
         lineReader.on('close', function() {
@@ -86,9 +85,6 @@ async function validateFileConent(file, delimiter, validatedElements) {
                             results.push(sorted_arr[l]);
                         }
                     }
-                    console.log("Duplicate Check:", prop);
-                    console.log(results);
-                    console.log(results.length);
                     validatedElements[prop].amountOfDuplicates = results.length;
                     validatedElements[prop].percentOfDuplicates = Math.floor((results.length / (lineCounter - 1)) * 100) + ' %';;
                     validatedElements[prop].duplicatesUnique = backToArray;

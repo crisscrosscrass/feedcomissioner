@@ -40,9 +40,14 @@ router.get('/', (req, res) => {
         let feedList = [];
         if (exist) {
             fs.readdirSync(feedsFolder).forEach(file => {
-                feedList.push({ file: file, size: getFilesizeInBytes(file) })
-                    // console.log(file, getFilesizeInBytes(file));
-                byteSize += fs.statSync(feedsFolder + file)["size"]
+                try {
+                    let date = new Date(fs.statSync(feedsFolder + file)["birthtime"]);
+                    feedList.push({ file: file, size: getFilesizeInBytes(file), date: date })
+                    byteSize += fs.statSync(feedsFolder + file)["size"]
+                } catch (error) {
+
+                }
+                // console.log(file, getFilesizeInBytes(file));
             });
             byteSize = byteSize / 1000000.0;
             percent = byteSize / 3000.00 * 100;
@@ -82,13 +87,13 @@ router.get('/uploadfeed', (req, res) => {
     return res.end();
 })
 router.get('/delete/:filename', (req, res) => {
+    console.log("your requested: ", req.params.filename);
     fs.readdirSync(feedsFolder).forEach(file => {
         if (file == req.params.filename) {
             console.log("delete", req.params.filename)
             fs.unlinkSync(feedsFolder + req.params.filename)
         }
     });
-    console.log("your requested: ", req.params.filename);
     res.writeHead(302, {
         'Location': '/files'
     });
@@ -108,6 +113,7 @@ router.get('/:filename', (req, res) => {
 function getFilesizeInBytes(filename) {
     var stats = fs.statSync(feedsFolder + filename)
     var fileSizeInBytes = stats["size"]
+        // console.log(stats);
     return fileSizeInBytes / 1000000.0 + " MB";
 }
 

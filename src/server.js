@@ -3,9 +3,11 @@ const socket = require('socket.io');
 const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const logger = require("./modules/logger");
 const sampleRouter = require('./routes/sample')
 const filesRouter = require('./routes/listingfiles')
 const splitterRouter = require('./routes/filesplitter')
+const logsRouter = require('./routes/logs')
 const feedcommissionerRouter = require('./routes/feedcommissioner')
 const app = express()
 
@@ -32,9 +34,11 @@ app.use('/feeds', express.static(__dirname + '/feeds'));
 app.use('/sample', sampleRouter)
 app.use('/files', filesRouter)
 app.use('/splitter', splitterRouter)
+app.use('/logs', logsRouter)
 app.use('/', feedcommissionerRouter)
-var server = app.listen(8060, '0.0.0.0', function() {
-    console.log("listening to request on port 8060");
+const port = 8060
+var server = app.listen(port, '0.0.0.0', function() {
+    logger.info(`Starting Server, listening to request on port ${port}`);
 });
 // Socket Setup
 var io = socket(server);
