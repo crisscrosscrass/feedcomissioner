@@ -17,9 +17,30 @@ class FeedAnalysis {
         this.analyzeDuplicateOverview();
         // this.setSelectOptions();
         this.addValidateButton();
+        this.addPreviewTableFromFeed();
     }
     callMapping() {
         new MappingSettingTool(globalValidatedElements)
+    }
+    addPreviewTableFromFeed() {
+            let div = document.createElement("DIV");
+            div.setAttribute("id", "DataTable");
+            this.writelocation.appendChild(div);
+            this.validateButton = document.createElement("BUTTON");
+            this.validateButton.value = "SHOW TABLE";
+            this.validateButton.innerHTML = ' <h1 style="margin: 0;">' + "SHOW TABLE" + '</h1>';;
+            this.validateButton.setAttribute("onclick", "showPreviewFeedTable()")
+            div.append(this.validateButton);
+            let Table = document.createElement("Table");
+            let headers = [...this.validatedElements.FEEDTABLE.headerValues];
+            let feedDataRows = [...this.validatedElements.FEEDTABLE.sampleItems];
+            feedDataRows = feedDataRows.slice(0, 3);
+            let tmpTable = `
+        <table id="previewFeedTable" style="display:none;height: 400px;overflow: scroll;" cellspacing="0" cellpadding="0">
+        <tr>${headers.map( value => `<th>${value}</th>` ).join('')}</tr>
+        ${feedDataRows.map( row => `<tr> ${row.map( value => `<td>${value}</td>`).join('')} </tr>` ).join('')}
+        </table>`;
+        div.innerHTML += tmpTable;
     }
     addValidateButton() {
         let div = document.createElement("DIV");
@@ -306,4 +327,9 @@ class FeedAnalysis {
 function callMappingTool() {
     // new MappingSettingTool(globalValidatedElements)
     new ValidateFeedAnalysis(globalValidatedElements);
+}
+
+function showPreviewFeedTable(){
+    let table = document.getElementById('previewFeedTable');
+    table.style.display == "none" ? table.style.display = "block" : table.style.display = "none";
 }

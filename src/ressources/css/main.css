@@ -1461,3 +1461,30 @@ ul.products p {
     animation: spin1 2s infinite linear;
     display: inherit;
 }
+
+#previewFeedTable {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#previewFeedTable td,
+#previewFeedTable th {
+    border: 1px solid #ddd;
+}
+
+#previewFeedTable tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#previewFeedTable tr:hover {
+    background-color: #ddd;
+}
+
+#previewFeedTable th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+}
