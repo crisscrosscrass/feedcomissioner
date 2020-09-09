@@ -1,4 +1,6 @@
-const express = require('express')
+require('dotenv').config();
+
+const express = require('express');
 const socket = require('socket.io');
 const path = require('path');
 const bodyParser = require('body-parser');
@@ -10,6 +12,10 @@ const splitterRouter = require('./routes/filesplitter')
 const logsRouter = require('./routes/logs')
 const feedcommissionerRouter = require('./routes/feedcommissioner')
 const app = express()
+const port = process.env.PORT || 8060;
+
+
+console.log(process.env.SECRET_MESSAGE);
 
 // Settings
 app.set('view engine', 'ejs')
@@ -36,7 +42,7 @@ app.use('/files', filesRouter)
 app.use('/splitter', splitterRouter)
 app.use('/logs', logsRouter)
 app.use('/', feedcommissionerRouter)
-const port = 8060
+
 var server = app.listen(port, '0.0.0.0', function() {
     logger.info(`Starting Server, listening to request on port ${port}`);
 });
