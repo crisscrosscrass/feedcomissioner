@@ -15,7 +15,7 @@ const app = express()
 const port = process.env.PORT || 8060;
 
 
-console.log(process.env.SECRET_MESSAGE);
+// console.log(process.env.SECRET_MESSAGE);
 
 // Settings
 app.set('view engine', 'ejs')

@@ -16,7 +16,7 @@ const convertJsonToCsv = require('../modules/convertJsonToCsv');
 const loadSyncConfig = require('../modules/loadSyncConfig');
 const getSyncMapping = require('../modules/syncMapping');
 const getHeadersFromCSV = require('../modules/loadHeadersFromCSV');
-const getTopSeparator = require('../modules/detectDelimiter');
+const getTopSeparator = require('../modules/detectSeparator');
 const validateAllAttributesViaFeed = require('../modules/validatedElements')
 const validateFileConent = require('../modules/validateFileContent')
 const getXMLHeadersFromFile = require('../modules/getHeaderFromXML');
@@ -227,9 +227,9 @@ router.post('/validate_file', (req, res) => {
     async function readAndValidate() {
         var headerValues = await getHeadersFromCSV(dest + fileName);
         logger.debug("First Line of the Feed: ", headerValues);
-        headerValues = headerValues.removeDelimiter();
         var separator = await getTopSeparator(headerValues);
-        headerValues = headerValues.toLocaleLowerCase().split(separator.sign)
+        headerValues = headerValues.toLocaleLowerCase().split(separator.sign);
+        headerValues = headerValues.map(value => value.removeDelimiter());
         fileType = path.extname('./feeds/' + req.body.fileName);
         syncMappingXMLFile = "" + path.dirname(__dirname) + '/ressources/data/SyncMapping_QM.xml';
         var mappingFile = await loadSyncConfig(syncMappingXMLFile);
