@@ -12,7 +12,7 @@ const splitterRouter = require('./routes/filesplitter')
 const logsRouter = require('./routes/logs')
 const feedcommissionerRouter = require('./routes/feedcommissioner')
 const app = express()
-const port = process.env.PORT || 8060;
+
 
 
 // console.log(process.env.SECRET_MESSAGE);
@@ -43,7 +43,11 @@ app.use('/splitter', splitterRouter)
 app.use('/logs', logsRouter)
 app.use('/', feedcommissionerRouter)
 
-var server = app.listen(port, '0.0.0.0', function() {
+const port = process.env.PORT || 8060;
+const host = '0.0.0.0';
+
+var server = app.listen(port, host, function() {
+    //console.log(`Running on http//${host}:${port}`);
     logger.info(`Starting Server, listening to request on port ${port}`);
 });
 // Socket Setup

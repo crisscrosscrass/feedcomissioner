@@ -228,6 +228,7 @@ router.post('/validate_file', (req, res) => {
         var headerValues = await getHeadersFromCSV(dest + fileName);
         logger.debug("First Line of the Feed: ", headerValues);
         var separator = await getTopSeparator(headerValues);
+        logger.debug("detected Separator: ", separator);
         headerValues = headerValues.toLocaleLowerCase().split(separator.sign);
         headerValues = headerValues.map(value => value.removeDelimiter());
         fileType = path.extname('./feeds/' + req.body.fileName);
