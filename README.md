@@ -1,6 +1,8 @@
 # FeedCommissioner
 
 Its a project about reading, validating and reporting shop feeds.
+* [Demo](https://feedcomissioner.herokuapp.com/)
+*This Demo is hosted by heroku, keep in mind that there is not much space for validation big files*
 
 # Features
 - URL Import
@@ -34,3 +36,11 @@ $ cd ../feedcommissioner
 $ docker build -t feedcommissioner-app .
 $ docker run --name feedcommissioner-app-container -d -p 8060:8060 feedcommissioner-app
 ```
+
+### Reference Documentation
+For further reference, please consider the following sections:
+
+* [Node.js®](https://nodejs.org/en/)
+* [EJS - Embedded JavaScript templating.](https://ejs.co/)
+* [Docker](https://www.docker.com/)
+* [Kubernetes](https://kubernetes.io/)
